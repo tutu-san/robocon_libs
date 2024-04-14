@@ -9,6 +9,7 @@
 
 //include
 #include <cstdint>
+#include "../tools/tools.hpp"
 
 //class
 class pi_class{
