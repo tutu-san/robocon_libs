@@ -1,4 +1,5 @@
 #include "pi_class.hpp"
+//実際にPI制御を計算するメソッド
 float pi_class::pi_calc(float current_value){
     //計算
     float error = 0.0f; //エラー値(目標との差)
@@ -19,12 +20,39 @@ float pi_class::pi_calc(float current_value){
     return pi_result;
 }
 
+//目標値を変更するメソッド
 void pi_class::update_terget(float new_terget_value){
     terget_value = new_terget_value;
     return;
 }
 
+//累積値(積分値)をリセットするメソッド
 void pi_class::reset_integral(){
     integral = 0.0f;
     return;
+}
+
+//PI制御器のON/OFFを切り替えるメソッド
+void pi_class::pi_enabled(bool usr_input){
+    if(usr_input = true){
+        pi_on = true;
+        return;
+    }else if(usr_input = false){
+        pi_on = false; //実行時, terget_valueをそのまま返すようになる
+        return;
+    }else{
+        return; //不正
+    }
+    return;
+}
+
+//PI制御器の状態をチェックして実行するメソッド
+float pi_class::run_pi_controller(float current_value){
+    float result = 0.0f;
+    if(pi_on == true){
+        result = pi_calc(current_value);
+    }else{
+        result = terget_value; //目標値をそのまま返すようになる
+    }
+    return result;
 }
