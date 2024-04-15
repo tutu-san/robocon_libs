@@ -3,6 +3,7 @@
 #define TOOLS
 
 #include <cmath>
+#include <cstdint>
 //クランプ
 template<typename T>
 void clamp(T&original_data, T max_value, T min_value){
