@@ -20,3 +20,14 @@ float uint8_to_float(uint8_t(&uint_datas)[8]){
 	return result;
 }
 //uint8_t -> uint16_t
+int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low){
+    //上位,下位ビットの統合
+    uint16_t unsigned_int_data = input_data_high << 8 | input_data_low;
+
+    int16_t signed_int_data = 0;
+
+    signed_int_data = unsigned_int_data;
+
+    //おしまい
+    return signed_int_data;
+}
