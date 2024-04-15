@@ -23,7 +23,7 @@ void clamp(T&original_data, T max_value, T min_value){
 float rad_per_sec_to_rpm(float rad_par_sec_input);
 //型変更系
 //uint8_t -> float
-
+float uint8_to_float(uint8_t(&uint_datas)[8]);
 //uint8_t -> uint16_t
 
 #endif
