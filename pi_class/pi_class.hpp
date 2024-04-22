@@ -34,7 +34,8 @@ public:
     void update_terget(float);
     void reset_integral();
     void pi_enabled(bool);
-    void update_gain(float new_p_gain, float new_i_gain);
+    void update_p_gain(float);
+    void update_i_gain(float);
 };
 
 #endif

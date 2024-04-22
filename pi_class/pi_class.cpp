@@ -58,8 +58,12 @@ float pi_class::run_pi_controller(float current_value){
 }
 
 //通信でゲインを変更することを想定しているメソッド
-void pi_class::update_gain(float new_p_gain, float new_i_gain){
+void pi_class::update_p_gain(float new_p_gain){
     gain_p = new_p_gain;
+    return;
+}
+
+void pi_class::update_i_gain(float new_i_gain){
     gain_i = new_i_gain;
     return;
 }
