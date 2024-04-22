@@ -3,7 +3,7 @@
 #define TOOLS
 //クランプ
 template<typename T>
-void clamp(T&original_data, T max_value, T min_value){
+void clamp(T&original_data, T min_value, T max_value){
     if(max_value < original_data){
         original_data = max_value;
         return;    

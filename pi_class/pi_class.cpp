@@ -5,8 +5,8 @@ float pi_class::pi_calc(float current_value){
     float error = 0.0f; //エラー値(目標との差)
 
     error = terget_value - current_value;
-    integral += error; //積分を差分の累積で代用
-    //Anti-windupを入れること
+    integral += error * delta_t; //積分を差分の累積で代用
+    clamp(integral, -10000.0f, 10000.0f);
 
     //gainをかける
     float result_p = 0.0f, result_i = 0.0f;
@@ -55,4 +55,15 @@ float pi_class::run_pi_controller(float current_value){
         result = terget_value; //目標値をそのまま返すようになる
     }
     return result;
+}
+
+//通信でゲインを変更することを想定しているメソッド
+void pi_class::update_p_gain(float new_p_gain){
+    gain_p = new_p_gain;
+    return;
+}
+
+void pi_class::update_i_gain(float new_i_gain){
+    gain_i = new_i_gain;
+    return;
 }

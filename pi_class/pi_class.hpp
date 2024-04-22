@@ -9,6 +9,7 @@
 
 //include
 #include <cstdint>
+#include "../tools/tools.hpp"
 
 //class
 class pi_class{
@@ -33,6 +34,8 @@ public:
     void update_terget(float);
     void reset_integral();
     void pi_enabled(bool);
+    void update_p_gain(float);
+    void update_i_gain(float);
 };
 
 #endif
