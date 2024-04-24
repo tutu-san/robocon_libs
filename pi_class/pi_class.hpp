@@ -1,7 +1,7 @@
 /**
  * @file pi_class.hpp
  * @brief pi_class header file
- * @details PI制御を行うクラスが入っているクラス、メソッドの実装は pi_class.cppを参照されたい
+ * @details PI制御を行うクラスが入っている、メソッドの実装は pi_class.cppを参照されたい
  */
 #pragma once
 #ifndef PI_CLASS
