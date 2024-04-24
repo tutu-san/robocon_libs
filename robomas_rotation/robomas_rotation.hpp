@@ -1,7 +1,7 @@
 /**
  * @file robomas_rotation.hpp
  * @brief robomas_rotation header file
- * @details ロボマスモーターの回転指令を行うクラス、メソッドの実装は robomas_rotation.cppを参照されたい
+ * @details ロボマスモーターの回転指令を行うクラスが入っているクラス、メソッドの実装は robomas_rotation.cppを参照されたい
  */
 #pragma once
 #ifndef ROBOMAS_ROTATION
