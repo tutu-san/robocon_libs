@@ -15,13 +15,23 @@ class motor_rotation{
 private:
     GPIO_TypeDef* gpio_port;
 	uint16_t gpio_pin;
-	TIM_HandleTypeDef* tim_handle;
+protected:
+    TIM_HandleTypeDef* tim_handle;
 	uint32_t tim_channel;
     bool reverse_swtich; //正転と逆転を切り替える
 public:
     motor_rotation(GPIO_TypeDef* _gpio_port, uint16_t _gpio_pin, TIM_HandleTypeDef* _tim_handle, uint32_t _tim_channel, bool _reverse_swtich):
     gpio_port(_gpio_port),gpio_pin(_gpio_pin),tim_handle(_tim_handle), tim_channel(_tim_channel), reverse_swtich(_reverse_swtich){}
-    void rotate(float);
+    virtual void rotate(float);
 };
 
+class dcmd_rotation : motor_rotation {
+private:
+	TIM_HandleTypeDef* tim_handle_inverse;
+	uint32_t tim_channel_inverse;
+public:
+    dcmd_rotation(TIM_HandleTypeDef* _tim_handle, uint32_t _tim_channel, TIM_HandleTypeDef* _tim_handle_inverse, uint32_t _tim_channel_inverse, bool _reverse_swtich):
+	motor_rotation(nullptr, 0, _tim_handle, _tim_channel, _reverse_swtich), tim_handle_inverse(_tim_handle_inverse), tim_channel_inverse(_tim_channel_inverse){}
+    void rotate(float) override;
+};
 #endif
