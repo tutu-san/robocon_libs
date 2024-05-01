@@ -20,7 +20,7 @@ void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], u
 	robomas_int16_pwm_data[3] = (int16_t)robomas_pwm_data[3];
 
 	for(int i=0; i<4; i++){
-		robomas_rotation::clamp(robomas_int16_pwm_data[i], (int16_t)-15000, (int16_t)15000);
+		clamp(robomas_int16_pwm_data[i], (int16_t)-15000, (int16_t)15000);
 	}
 
 	robomas_send_data[0] = (uint16_t)robomas_int16_pwm_data[0] >> 8;
