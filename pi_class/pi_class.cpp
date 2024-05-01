@@ -6,7 +6,7 @@ float pi_class::pi_calc(float current_value){
 
     error = terget_value - current_value;
     integral += error * delta_t; //積分を差分の累積で代用
-    clamp(integral, -10000.0f, 10000.0f);
+    clamp(integral, -10000.0f, 10000.0f); //累積値上限設定 必要に応じて変更
 
     //gainをかける
     float result_p = 0.0f, result_i = 0.0f;
