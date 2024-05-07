@@ -59,8 +59,13 @@ uint64_t can_id_gen(contents_type_t contents_name){
 
 int main(){
     using enum contents_type_t;
+    //pc の送信idに見立てる
     uint64_t id = can_id_gen(dog);
     cout << "id: " << showbase << hex << id << endl;
+
+    //can_receive()内の処理と想定
+    if(id == can_id_gen(dog)) cout << "correct!" << endl;
+    else cout << "error!" << endl;
     return 0;
 }
 
