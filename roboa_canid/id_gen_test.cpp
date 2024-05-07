@@ -5,7 +5,7 @@
 using namespace std;
 
 //board select
-#define POWER_BOARD
+#define CCC_BOARD
 
 #ifdef POWER_BOARD
 constexpr static uint64_t board_id = 0x10000000;
@@ -20,6 +20,26 @@ constexpr static array<uint8_t, 3> contents_name_arr = {
     0x00, //none
     0x01, //reset
     0x02  //eat
+};
+#endif
+
+#ifdef CCC_BOARD
+constexpr static uint64_t board_id = 0x20000000;
+
+enum class contents_type_t : int {
+    none,
+    reset,
+    robomas,
+    cat,
+    dog
+};
+
+constexpr static array<uint8_t, 5> contents_name_arr = {
+    0x00, //none
+    0x01, //reset
+    0x02, //robomas
+    0x03, //cat
+    0xF1  //dog
 };
 #endif
 
@@ -39,7 +59,7 @@ uint64_t can_id_gen(contents_type_t contents_name){
 
 int main(){
     using enum contents_type_t;
-    uint64_t id = can_id_gen(none);
+    uint64_t id = can_id_gen(dog);
     cout << "id: " << showbase << hex << id << endl;
     return 0;
 }
