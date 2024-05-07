@@ -15,17 +15,17 @@ void motor_rotation::rotate(float motor_pwm){
 }
 
 void dcmd_rotation::rotate(float motor_pwm){
-	clamp(motor_pwm, -65535.0f, 65535.0f);
+	clamp(motor_pwm, -1.0f, 1.0f);
 	bool rotate_dir = motor_pwm > 0.0f; //正転か逆転かを判断(入力値より)
 	if(reverse_swtich == true){ //Reverse_swtich によって、回転方向を逆転
         rotate_dir = !rotate_dir;
     }
 	//回転させる
 	if(rotate_dir){
-		__HAL_TIM_SET_COMPARE(tim_handle, tim_channel, fabs(motor_pwm));
+		__HAL_TIM_SET_COMPARE(tim_handle, tim_channel, fabs(motor_pwm) * (tim_handle->Init.Period));
 		__HAL_TIM_SET_COMPARE(tim_handle_inverse, tim_channel_inverse, 0);
 	}else{
 		__HAL_TIM_SET_COMPARE(tim_handle, tim_channel, 0);
-		__HAL_TIM_SET_COMPARE(tim_handle_inverse, tim_channel_inverse, fabs(motor_pwm));
+		__HAL_TIM_SET_COMPARE(tim_handle_inverse, tim_channel_inverse, fabs(motor_pwm) * (tim_handle->Init.Period));
 	}
 }
