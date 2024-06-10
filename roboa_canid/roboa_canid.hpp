@@ -6,7 +6,6 @@
 #include <array>
 
 //board_select
-#define CCC_BOARD
 enum class board_select_enum : uint64_t{
     power_board,
     ccc_board
@@ -23,26 +22,15 @@ constexpr static std::array<uint64_t, 5> board_number_arr = {
 constexpr static uint64_t board_number = board_number_arr[0];
 
 //power_board
-#ifdef POWER_BOARD
-
-enum class contents_type_t : int{
-    none,
-    state,
-    cell,
-    ems_request,
-    out_v,
-    monitor_period,
-    monitor_reg
-};
-
-constexpr static std::array<uint64_t, 7>contents_name_arr = {
-    0x00, //none
-    0x01, //state (ems_state)
-    0x02, //cell (ripo-cellnumbers)
-    0x03, //ems_request (from_pc)
-    0x04, //out_v (volt form ripo)
-    0xF0, //monitor_period (board -> pc feedback period)
-    0xF1  //motor_reg (monitor_data select)
+//contents_select
+enum class contents_type_enum : uint64_t{
+    none = 0x00,
+    state = 0x01,
+    cell = 0x02,
+    ems_request = 0x03,
+    out_v = 0x04,
+    monitor_period = 0xF0,
+    monitor_reg = 0xF1
 };
 
 //can_data と比較するやつ
@@ -50,11 +38,8 @@ enum class ems_state : uint8_t{
     MANUAL_EMS = 0,
     SOFT_EMS = 1
 };
-#endif
 
 //ccc_board
-#ifdef CCC_BOARD
-
 //motor_select
 constexpr static std::array<uint64_t, 5>motor_number_arr = {
     0x00000000,
@@ -63,7 +48,6 @@ constexpr static std::array<uint64_t, 5>motor_number_arr = {
     0x00003000,
     0x00004000
 };
-constexpr static uint64_t motor_number = motor_number_arr[0];
 
 //contents select
 enum class contents_name_enum : uint64_t{
@@ -92,8 +76,6 @@ enum class contents_name_enum : uint64_t{
     monitor_reg = 0xF1
 };
 
-
-
 //can_data と比較するやつ
 enum class motor_type : uint8_t {
     C610_C620,
@@ -105,10 +87,14 @@ enum class control_mode : uint8_t {
     SPD,
     POS
 };
-#endif
 
+//canid_gen 
 uint64_t canid_generater(board_select_enum board, contents_name_enum contents_name, int board_number = 1){
     return static_cast<uint64_t>(board) + static_cast<uint64_t>(contents_name) + board_number_arr[board_number];
+}
+
+uint64_t canid_generater(board_select_enum board, contents_name_enum contents_name, int board_number = 1, int motor_number = 0){
+    return static_cast<uint64_t>(board) + static_cast<uint64_t>(contents_name) + board_number_arr[board_number] + motor_number_arr[0];
 }
 
 #endif
