@@ -1,7 +1,11 @@
 #include "motor_rotation.hpp"
 
+void motor_rotation::rotate{
+	return;
+}
+
 //モータを回す
-void motor_rotation::rotate(float motor_pwm){
+void ucs3_rotation::rotate(float motor_pwm){
 	//motor_pwmのクランプ
 	clamp(motor_pwm, -65535.0f, 65535.0f);
     //正転と逆転を切り替える
