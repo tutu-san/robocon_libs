@@ -5,10 +5,16 @@
 #include <cstdint>
 #include <array>
 
+//read or write(基板側から見て)
+enum class read_or_write_enum : uint64_t{
+    read = 0x00000000,
+    write = 0x10000000
+};
+
 //board_select
 enum class board_select_enum : uint64_t{
-    power_board,
-    ccc_board
+    power_board = 0x01000000,
+    ccc_board = 0x02000000
 };
 
 //(common) board_number
@@ -23,7 +29,7 @@ constexpr static uint64_t board_number = board_number_arr[0];
 
 //power_board
 //contents_select
-enum class contents_type_enum : uint64_t{
+enum class power_contents_name_enum : uint64_t{
     none = 0x00,
     state = 0x01,
     cell = 0x02,
@@ -43,14 +49,14 @@ enum class ems_state : uint8_t{
 //motor_select
 constexpr static std::array<uint64_t, 5>motor_number_arr = {
     0x00000000,
-    0x00001000,
-    0x00002000,
-    0x00003000,
-    0x00004000
+    0x00000100,
+    0x00000200,
+    0x00000300,
+    0x00000400
 };
 
 //contents select
-enum class contents_name_enum : uint64_t{
+enum class ccc_contents_name_enum : uint64_t{
     none = 0x00,
     motor_type = 0x01,
     control_mode = 0x02,
@@ -89,12 +95,12 @@ enum class control_mode : uint8_t {
 };
 
 //canid_gen 
-uint64_t canid_generater(board_select_enum board, contents_name_enum contents_name, int board_number = 1){
-    return static_cast<uint64_t>(board) + static_cast<uint64_t>(contents_name) + board_number_arr[board_number];
+uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, power_contents_name_enum contents_name, int board_number = 1){
+    return static_cast<uint64_t>(read_or_write) + static_cast<uint64_t>(board) + static_cast<uint64_t>(contents_name) + board_number_arr[board_number];
 }
 
-uint64_t canid_generater(board_select_enum board, contents_name_enum contents_name, int board_number = 1, int motor_number = 0){
-    return static_cast<uint64_t>(board) + static_cast<uint64_t>(contents_name) + board_number_arr[board_number] + motor_number_arr[0];
+uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, ccc_contents_name_enum contents_name, int board_number = 1, int motor_number = 0){
+    return static_cast<uint64_t>(read_or_write) + static_cast<uint64_t>(board) + static_cast<uint64_t>(contents_name) + board_number_arr[board_number] + motor_number_arr[motor_number];
 }
 
 #endif
