@@ -1,6 +1,6 @@
 #include "motor_rotation.hpp"
 
-void motor_rotation::rotate{
+void motor_rotation::rotate(){
 	return;
 }
 
