@@ -4,7 +4,6 @@
 void can_send(void* canfd_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
     FDCAN_HandleTypeDef* canfd_handle = (FDCAN_HandleTypeDef*)_canfd_handle;
     CAN_TxHeaderTypeDef tx_header;
-    uint8_t mailbox;
     
     //header settings
     tx_header.Identifier = can_id;

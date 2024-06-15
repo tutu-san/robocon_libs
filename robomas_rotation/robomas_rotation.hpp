@@ -2,7 +2,6 @@
  * @file robomas_rotation.hpp
  * @brief robomas_rotation header file
  * @details ロボマスモーターの回転指令を行うクラス、メソッドの実装は robomas_rotation.cppを参照されたい
- * @attention CANかCANFDによって#includeの変更が必要
  */
 #pragma once
 #ifndef ROBOMAS_ROTATION
