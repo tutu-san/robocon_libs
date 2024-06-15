@@ -17,9 +17,9 @@ protected:
     uint32_t tim_channel;
 public:
     motor_rotation(TIM_HandleTypeDef* _tim_handle, uint32_t _tim_channel):
-    _tim_handle(tim_handle), _tim_channel(tim_channel){}
+    tim_handle(_tim_handle), tim_channel(_tim_channel){}
     virtual void rotate(float);
-}
+};
 
 class ucs3_rotation : motor_rotation{
 private:
