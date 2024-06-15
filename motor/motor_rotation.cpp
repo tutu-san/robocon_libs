@@ -1,6 +1,7 @@
 #include "motor_rotation.hpp"
 
-void motor_rotation::rotate(){
+void motor_rotation::rotate(float motor_pwm){[
+	__HAL_TIM_SET_COMPARE(tim_handle, tim_channel, fabs(motor_pwm));
 	return;
 }
 

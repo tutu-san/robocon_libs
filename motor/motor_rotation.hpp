@@ -14,7 +14,7 @@
 class motor_rotation{
 public:
     motor_rotation(){}
-    virtual void rotate();
+    virtual void rotate(float);
 }
 
 class ucs3_rotation : motor_rotation{
