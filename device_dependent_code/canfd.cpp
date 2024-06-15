@@ -1,6 +1,8 @@
 #include "canfd.hpp"
 
-void can_send(FDCAN_HandleTypedef* canfd_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id = false){
+#ifdef ENABLE_CANFD
+void can_send(void* canfd_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
+    FDCAN_HandleTypeDef* canfd_handle = (FDCAN_HandleTypeDef*)_canfd_handle;
     CAN_TxHeaderTypeDef tx_header;
     uint8_t mailbox;
     
@@ -21,3 +23,4 @@ void can_send(FDCAN_HandleTypedef* canfd_handle, uint32_t can_id, uint8_t(&send_
 
 	HAL_FDCAN_AddMessageToTxFifoQ(canfd_handle, &tx_header, send_data);
 }
+#endif

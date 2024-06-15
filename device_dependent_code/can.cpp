@@ -1,8 +1,10 @@
 #include "can.hpp"
 
-void can_send(CAN_HandleTypedef* can_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id = false){
-    CAN_TxHeaderTypeDef tx_header;
-    uint8_t mailbox;
+#ifdef ENABLE_CAN
+void can_send(void* _can_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
+	CAN_HandleTypeDef* can_handle = (CAN_HandleTypeDef*)_can_handle;
+	CAN_TxHeaderTypeDef tx_header;
+    uint32_t mailbox;
     
     //header settings
     tx_header.StdId = can_id;
@@ -15,6 +17,7 @@ void can_send(CAN_HandleTypedef* can_handle, uint32_t can_id, uint8_t(&send_data
         tx_header.IDE = CAN_ID_STD;
     }
 
-    HAL_CAN_AddTxMessage(can_handle, &tx_header, send_data, mailbox);
+    HAL_CAN_AddTxMessage(can_handle, &tx_header, send_data, &mailbox);
     return;
 }
+#endif
