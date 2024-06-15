@@ -21,7 +21,7 @@ public:
     virtual void rotate(float);
 };
 
-class ucs3_rotation : motor_rotation{
+class ucs3_rotation : public motor_rotation{
 protected:
     GPIO_TypeDef* gpio_port;
 	uint16_t gpio_pin;
