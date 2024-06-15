@@ -9,7 +9,7 @@ void robomas_rotation::input_rotation_data(int motor_number, float input_pwm_dat
 void robomas_rotation::rotate(){
 	uint8_t robomas_send_data[8] = {0};
 	convert_to_send_data(robomas_pwm_data, robomas_send_data);
-	can_send(robomas_send_data);
+	can_send(can_handle, robomas_can_id, robomas_send_data);
 }
 
 void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], uint8_t(&robomas_send_data)[8]){
@@ -31,8 +31,4 @@ void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], u
 	robomas_send_data[5] = (uint16_t)robomas_int16_pwm_data[2] & 0xff;
 	robomas_send_data[6] = (uint16_t)robomas_int16_pwm_data[3] >> 8;
 	robomas_send_data[7] = (uint16_t)robomas_int16_pwm_data[3] & 0xff;
-}
-
-void robomas_rotation::can_send(uint8_t(&robomas_send_data)[8]){
-	HAL_FDCAN_AddMessageToTxFifoQ(fdcan_handle, &tx_header, robomas_send_data);
 }
