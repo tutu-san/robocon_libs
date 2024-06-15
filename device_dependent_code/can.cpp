@@ -1,6 +1,6 @@
 #include "can.hpp"
 
-void can_send(CAN_Handle_Typedef* can_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id = false){
+void can_send(CAN_HandleTypedef* can_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id = false){
     CAN_TxHeaderTypeDef tx_header;
     uint8_t mailbox;
     
