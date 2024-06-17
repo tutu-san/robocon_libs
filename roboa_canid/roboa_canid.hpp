@@ -82,7 +82,7 @@ enum class ccc_contents_name_enum : uint64_t{
     monitor_reg = 0xF1
 };
 
-//can_data と比較するやつ
+//can_data 内部データの形式
 enum class motor_type : uint8_t {
     C610_C620,
     DCMD,
@@ -94,9 +94,34 @@ enum class control_mode : uint8_t {
     POS
 };
 
+//gpio_board
+//contents select
+enum class gpio_board_contents_name_enum : uint32_t{
+    none = 0x00,
+    port_mode = 0x01,
+    port_read = 0x02,
+    port_write = 0x03,
+    pwm_period = 0x04,
+    pwm_duty = 0x05,
+    monitor_period = 0xF0,
+    monitor_reg = 0xF1
+};
+
+//can_data 内部データの形式
+enum class port_mode : uint8_t {
+    OUTPUT,
+    INPUT,
+    PWM //software pwm
+};
+
 //canid_gen 
+//power
 uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, power_contents_name_enum contents_name, int board_number = 1);
 
+//ccc
 uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, ccc_contents_name_enum contents_name, int board_number = 1, int motor_number = 0);
+
+//gpio
+uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, gpio_board_contents_name_enum contents_name, int board_number = 1);
 
 #endif
