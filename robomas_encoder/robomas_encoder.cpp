@@ -15,7 +15,7 @@ int robomas_encoder::show_rpm(){
     int16_t signed_robomas_rpm_data = 0;
 
     signed_robomas_rpm_data = unsigned_robomas_rpm_data;
-    signed_robomas_rpm_data /= 36; //ギア比で割っている
+    signed_robomas_rpm_data /= motor_gear_ratio; //ギア比で割っている
 
     //debug
     debug_robomas_rpm = signed_robomas_rpm_data;
