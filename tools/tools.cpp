@@ -9,7 +9,6 @@ float rad_per_sec_to_rpm(float rad_par_sec){
 //uint8_t -> float
 float uint8_to_float(uint8_t(&uint_datas)[8]){
     //uint8_t[4] to float
-	static float save = 0;
 	uint8_t tmp2[4];
 	float result;
 	for(int i=0; i<4; i++){
