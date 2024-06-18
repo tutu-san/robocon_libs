@@ -120,7 +120,7 @@ enum class port_mode : uint8_t {
 uint64_t canid_generater_power(read_or_write_enum read_or_write, power_contents_name_enum contents_name, int board_number = 1);
 
 //ccc
-uint64_t canid_generater_ccc(read_or_write_enum read_or_write, ccc_contents_name_enum contents_name, int board_number = 1, int motor_number = 0);
+uint64_t canid_generater_ccc(read_or_write_enum read_or_write, ccc_contents_name_enum contents_name, int motor_number = 0, int board_number = 1);
 
 //gpio
 uint64_t canid_generater_gpio(read_or_write_enum read_or_write, gpio_board_contents_name_enum contents_name, int board_number = 1);
