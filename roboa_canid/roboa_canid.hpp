@@ -14,7 +14,8 @@ enum class read_or_write_enum : uint64_t{
 //board_select
 enum class board_select_enum : uint64_t{
     power_board = 0x01000000,
-    ccc_board = 0x02000000
+    ccc_board = 0x02000000,
+    gpio_board = 0x03000000
 };
 
 //(common) board_number
@@ -116,12 +117,12 @@ enum class port_mode : uint8_t {
 
 //canid_gen 
 //power
-uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, power_contents_name_enum contents_name, int board_number = 1);
+uint64_t canid_generater_power(read_or_write_enum read_or_write, power_contents_name_enum contents_name, int board_number = 1);
 
 //ccc
-uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, ccc_contents_name_enum contents_name, int board_number = 1, int motor_number = 0);
+uint64_t canid_generater_ccc(read_or_write_enum read_or_write, ccc_contents_name_enum contents_name, int board_number = 1, int motor_number = 0);
 
 //gpio
-uint64_t canid_generater(read_or_write_enum read_or_write, board_select_enum board, gpio_board_contents_name_enum contents_name, int board_number = 1);
+uint64_t canid_generater_gpio(read_or_write_enum read_or_write, gpio_board_contents_name_enum contents_name, int board_number = 1);
 
 #endif
