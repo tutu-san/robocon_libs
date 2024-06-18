@@ -84,12 +84,12 @@ enum class ccc_contents_name_enum : uint64_t{
 };
 
 //can_data 内部データの形式
-enum class motor_type : uint8_t {
+enum class motor_type_enum : uint8_t {
     C610_C620,
     DCMD,
     VESC
 };
-enum class control_mode : uint8_t {
+enum class control_mode_enum : uint8_t {
     PWM_MODE,
     SPD,
     POS
