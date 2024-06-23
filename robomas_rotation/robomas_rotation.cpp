@@ -1,7 +1,9 @@
 #include "robomas_rotation.hpp"
 
-void robomas_rotation::input_rotation_data(int motor_number, float input_pwm_data){
+void robomas_rotation::input_rotation_data(int motor_number, float input_power_ratio){
 	if(motor_number >= 4) return; //範囲外アクセス防止
+	clamp(input_power_ratio, -1.0f, 1.0f);
+	float input_pwm_data = input_power_ratio * 14000.0f;
 	clamp(input_pwm_data, -14000.0f, 14000.0f);
 	robomas_pwm_data[motor_number] = input_pwm_data;
 }

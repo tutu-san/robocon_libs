@@ -69,3 +69,14 @@ void robomas_encoder::first_axis_pos(){
 void robomas_encoder::reset_positon(int new_default_position){
 	default_position = new_default_position;
 }
+
+void robomas_encoder::change_motor_type(robomas_motor_type_enum motor_type){
+	switch(motor_type){
+		case robomas_motor_type_enum::M2006:
+			motor_gear_ratio = 36.0f;
+			break;
+		case robomas_motor_type_enum::M3508:
+			motor_gear_ratio = 3591.0f / 187.0f;
+			break;
+	}
+}

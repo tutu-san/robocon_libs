@@ -17,19 +17,22 @@ private:
     //gain
     float gain_p;
     float gain_i;
+    float gain_d;
     //delta_t(loop_time/コンストラクタで設定できるようにする)
     const float delta_t;
     //目標値
     float terget_value = 0.0f;
     //積分累積値
     float integral = 0.0f;
+    //前回の差分値(d制御準備工事)
+    // float prev_error = 0.0f;
     //PI制御のON/OFF
     bool pi_on = true;
     //PI制御計算の本体
     float pi_calc(float);
 public:
     //コンストラクタ
-    pi_class(float _gain_p, float _gain_i, float _delta_t):gain_p(_gain_p), gain_i(_gain_i), delta_t(_delta_t){}
+    pi_class(float _gain_p, float _gain_i, float _gain_d, float _delta_t):gain_p(_gain_p), gain_i(_gain_i), gain_d(_gain_d), delta_t(_delta_t){}
     float run_pi_controller(float);
     void update_terget(float);
     void reset_integral();

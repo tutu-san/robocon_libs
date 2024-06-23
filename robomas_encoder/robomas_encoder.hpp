@@ -31,16 +31,10 @@ private:
     float motor_gear_ratio;
 public:
     robomas_encoder(robomas_motor_type_enum _motor_type){
-        switch(_motor_type){
-            case robomas_motor_type_enum::M2006:
-                motor_gear_ratio = 36.0f;
-                break;
-            case robomas_motor_type_enum::M3508:
-                motor_gear_ratio = 3591.0f / 187.0f;
-                break;
-        }
+        change_motor_type(_motor_type);
     }
 
+    void change_motor_type(robomas_motor_type_enum motor_type);
     void input_encoder_data(uint8_t[8]);
     int show_rpm();
     float show_pos();
