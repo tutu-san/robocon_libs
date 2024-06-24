@@ -1,9 +1,9 @@
 #include "canfd.hpp"
 
 #ifdef ENABLE_CANFD
-void can_send(void* canfd_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
+void can_send(void* _canfd_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
     FDCAN_HandleTypeDef* canfd_handle = (FDCAN_HandleTypeDef*)_canfd_handle;
-    CAN_TxHeaderTypeDef tx_header;
+    FDCAN_TxHeaderTypeDef tx_header;
     
     //header settings
     tx_header.Identifier = can_id;

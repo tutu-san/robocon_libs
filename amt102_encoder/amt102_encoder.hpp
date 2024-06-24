@@ -10,7 +10,7 @@
 #define encoder_HPP
 
 //includes
-#include "stm32f4xx_hal.h" // stm32の使用するチップよって変わる
+#include "main.h"
 #include <cmath>
 #include <cstdint>
 //encoder
