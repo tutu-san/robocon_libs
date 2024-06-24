@@ -48,12 +48,11 @@ enum class ems_state : uint8_t{
 
 //ccc_board
 //motor_select
-constexpr static std::array<uint64_t, 5>motor_number_arr = {
+constexpr static std::array<uint64_t, 4>motor_number_arr = {
     0x00000000,
     0x00000100,
     0x00000200,
-    0x00000300,
-    0x00000400
+    0x00000300
 };
 
 //contents select
