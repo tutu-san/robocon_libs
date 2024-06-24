@@ -42,10 +42,10 @@ void pi_class::reset_integral(){
 
 //PI制御器のON/OFFを切り替えるメソッド
 void pi_class::pi_enabled(bool usr_input){
-    if(usr_input = true){
+    if(usr_input == true){
         pi_on = true;
         return;
-    }else if(usr_input = false){
+    }else if(usr_input == false){
         pi_on = false; //実行時, terget_valueをそのまま返すようになる
         return;
     }else{
