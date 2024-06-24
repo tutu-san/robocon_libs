@@ -8,7 +8,7 @@
 #define ROBOMAS_ROTATION
 
 #include "device_dependent_code/can.hpp"
-// #include "canfd.hpp"
+#include "device_dependent_code/canfd.hpp"
 
 #include <cstdint>
 #include <algorithm>

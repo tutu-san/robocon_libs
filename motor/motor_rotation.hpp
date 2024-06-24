@@ -7,7 +7,7 @@
 #ifndef MOTOR_ROTATION
 #define MOTOR_ROTATION
 
-#include "stm32f4xx_hal.h" //仮置き(for f446re) 適宜各stm32用のhalライブラリをインクルードすること
+#include "main.h" //仮置き(for f446re) 適宜各stm32用のhalライブラリをインクルードすること
 #include "../tools/tools.hpp"
 #include <cmath>
 
