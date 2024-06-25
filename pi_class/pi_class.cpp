@@ -2,12 +2,9 @@
 //実際にPI制御を計算するメソッド
 float pi_class::pi_calc(float current_value){
     //計算
-    float error = 0.0f; //エラー値(目標との差)
-    // float derivative = 0.0f; // 微分値
-
-    error = terget_value - current_value;
+    const float error = terget_value - current_value; //エラー値(目標との差)
     integral += error * delta_t; //積分を差分の累積で代用
-    // derivative = (error - prev_error) / delta_t; //微分
+    // const float derivative = (error - prev_error) / delta_t; //微分
     // prev_error = error; //エラー値保存)(微分)
 
     clamp(integral, -10000.0f, 10000.0f); //累積値上限設定 必要に応じて変更
