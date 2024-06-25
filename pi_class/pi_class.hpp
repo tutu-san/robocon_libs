@@ -18,7 +18,7 @@ private:
     float gain_p;
     float gain_i;
     float gain_d;
-    //delta_t(loop_time/コンストラクタで設定できるようにする)
+    //delta_t(loop_time/コンストラクタで設定できるようにする) (単位 sec)
     const float delta_t;
     //目標値
     float terget_value = 0.0f;
