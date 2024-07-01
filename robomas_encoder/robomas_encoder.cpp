@@ -8,19 +8,17 @@ void robomas_encoder::input_encoder_data(uint8_t robomas_encoder_data[8]){
     robomas_input_pos_low = robomas_encoder_data[1];
 }
 
-int robomas_encoder::show_rpm(){
+float robomas_encoder::show_rpm(){
     //上位,下位ビットの統合
     uint16_t unsigned_robomas_rpm_data = robomas_input_rpm_high << 8 | robomas_input_rpm_low;
 
-    int16_t signed_robomas_rpm_data = 0;
-
-    signed_robomas_rpm_data = unsigned_robomas_rpm_data;
-    signed_robomas_rpm_data /= motor_gear_ratio; //ギア比で割っている
+    const int16_t signed_robomas_rpm_data = unsigned_robomas_rpm_data;
+    const float axis_robomas_rpm_data = static_cast<float>(signed_robomas_rpm_data) / motor_gear_ratio; //ギア比で割っている
 
     //debug
-    debug_robomas_rpm = signed_robomas_rpm_data;
+    debug_robomas_rpm = axis_robomas_rpm_data;
     //おしまい
-    return signed_robomas_rpm_data;
+    return axis_robomas_rpm_data;
 }
 
 float robomas_encoder::show_pos(){
