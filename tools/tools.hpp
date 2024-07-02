@@ -27,4 +27,6 @@ float rad_per_sec_to_rpm(float rad_par_sec_input);
 float uint8_to_float(uint8_t(&uint_datas)[8]);
 //uint8_t -> uint16_t
 int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low);
+//float -> uint8_t
+void float_to_uint8(float input, uint8_t(&)[8]);
 #endif
