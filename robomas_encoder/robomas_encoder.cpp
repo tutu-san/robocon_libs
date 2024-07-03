@@ -74,7 +74,7 @@ void robomas_encoder::change_motor_type(robomas_motor_type_enum motor_type){
 			motor_gear_ratio = 36.0f;
 			break;
 		case robomas_motor_type_enum::M3508:
-			motor_gear_ratio = 3591.0f / 187.0f;
+			motor_gear_ratio = 19.2f; /* 3591.0f / 187.0f  を近似*/
 			break;
 	}
 }
