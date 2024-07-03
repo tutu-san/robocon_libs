@@ -32,7 +32,7 @@ int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low){
 }
 //float -> uint8_t
 void float_to_uint8(float input_float_data, uint8_t(&output_uint8_datas)[8]){
-    const uint32_t tmp_32bits_data = bit_cast<uint32_t>(input_float_data);
+    const uint32_t tmp_32bits_data =std::bit_cast<uint32_t>(input_float_data);
     for(int i = 0; i < 4; i++){
         output_uint8_datas[i] = static_cast<uint8_t>(tmp_32bits_data >> (i * 8));
     }
