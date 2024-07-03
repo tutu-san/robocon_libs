@@ -19,8 +19,8 @@ float pi_class::pi_calc(float current_value){
 
     //計算結果を返す
     float pi_result = 0.0f;
-    pi_result = result_p * result_i;
-    // pi_result *= result_d;
+    pi_result = result_p + result_i;
+    // pi_result += result_d;
     //pi制御の結果そのものにクランプをかけるのは、結果を受け取ったメソッドで行うべき
     return pi_result;
 }
