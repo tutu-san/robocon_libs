@@ -15,7 +15,7 @@ void robomas_rotation::rotate(){
 }
 
 void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], uint8_t(&robomas_send_data)[8]){
-	int16_t robomas_int16_pwm_data[4]; //float to int
+//	int16_t robomas_int16_pwm_data[4]; //float to int
 	robomas_int16_pwm_data[0] = (int16_t)robomas_pwm_data[0];
 	robomas_int16_pwm_data[1] = (int16_t)robomas_pwm_data[1];
 	robomas_int16_pwm_data[2] = (int16_t)robomas_pwm_data[2];

@@ -59,6 +59,7 @@ float pi_class::run_pi_controller(float current_value){
     }else{
         result = terget_value; //目標値をそのまま返すようになる
     }
+    _debug_result = result;
     return result;
 }
 

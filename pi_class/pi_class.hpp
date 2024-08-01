@@ -30,6 +30,7 @@ private:
     bool pi_on = true;
     //PI制御計算の本体
     float pi_calc(float);
+    float _debug_result = 0.0f;
 public:
     //コンストラクタ
     pi_class(float _gain_p, float _gain_i, float _gain_d, float _delta_t):gain_p(_gain_p), gain_i(_gain_i), gain_d(_gain_d), delta_t(_delta_t){}

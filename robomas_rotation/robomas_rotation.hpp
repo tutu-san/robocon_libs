@@ -20,6 +20,7 @@ protected:
     void* can_handle;
     void convert_to_send_data(const float(&)[4], uint8_t(&)[8]);
     float robomas_pwm_data[4] = {0.0f};
+	int16_t robomas_int16_pwm_data[4]; //float to int
 public:
     robomas_rotation(void* _can_handle): can_handle(_can_handle){}
     void rotate();
