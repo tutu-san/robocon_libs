@@ -73,16 +73,3 @@ void pi_class::update_i_gain(float new_i_gain){
     gain_i = new_i_gain;
     return;
 }
-
-
-//taichi_input
-float pi_class::taichi_input_target(float target_deg, float now_pos){
-    const int minius = target_deg > 0 ? 1 : -1;
-    const int counter_36 = abs(target_deg) / 10;
-    const float amari = ((abs((int)target_deg) % 10) / 10.0f) * 8191.0f;
-    const float result = ((angle_to_rad * (amari + counter_36 * resolution * minius)) / 36.0f) + now_pos;
-
-    terget_value = result * 36;
-
-    return 0.0f;
-}

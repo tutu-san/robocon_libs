@@ -31,11 +31,6 @@ private:
     //PI制御計算の本体
     float pi_calc(float);
     float _debug_result = 0.0f;
-
-    //taichi encoder
-    constexpr static size_t resolution_bit = 13;
-    constexpr static int resolution = 1<<resolution_bit;
-    constexpr static float angle_to_rad = 2*M_PI/(float)resolution;
 public:
     //コンストラクタ
     pi_class(float _gain_p, float _gain_i, float _gain_d, float _delta_t):gain_p(_gain_p), gain_i(_gain_i), gain_d(_gain_d), delta_t(_delta_t){}
@@ -45,8 +40,6 @@ public:
     void pi_enabled(bool);
     void update_p_gain(float);
     void update_i_gain(float);
-
-    float taichi_input_target(float, float);
 };
 
 #endif
