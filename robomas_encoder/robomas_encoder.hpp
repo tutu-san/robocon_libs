@@ -9,6 +9,7 @@
 #define ROBOMAS_ENCODER
 
 #include <cstdint>
+#include <cmath>
 
 enum class robomas_motor_type_enum : int {
     M2006,
@@ -17,7 +18,6 @@ enum class robomas_motor_type_enum : int {
 
 class robomas_encoder{
 private:
-
     float debug_robomas_rpm = 0;
     int16_t signed_robomas_pos_data = 0;
     float signed_robomas_pos_axis_data = 0.0f;
@@ -26,6 +26,17 @@ private:
     int default_position = 0;
 
     float ruisekiwa = 0.0f;
+    float last_data = 0.0f;
+
+//from taichi encoder
+    float update_angle(int16_t, int16_t);
+    float taichi_input_target(float, float);
+    constexpr static size_t resolution_bit = 13;
+    constexpr static int resolution = 1<<resolution_bit;
+    constexpr static float angle_to_rad = 2*M_PI/(float)resolution;
+    int32_t turn_count = 0;
+    int16_t old_angle = 0;
+
 
 
 public:
@@ -34,10 +45,11 @@ public:
     }
 
     float motor_gear_ratio;
+    float result_pos = 0.0f;
 
     uint8_t robomas_input_rpm_high = 0, robomas_input_rpm_low = 0; //save robomas_encoder_data
     uint8_t robomas_input_pos_high = 0, robomas_input_pos_low = 0;
-    uint16_t angle_data;
+    int16_t angle_data;
     int16_t speed_data;
 
     void change_motor_type(robomas_motor_type_enum motor_type);

@@ -6,7 +6,7 @@ void robomas_encoder::input_encoder_data(uint8_t robomas_encoder_data[8]){
     robomas_input_rpm_low = robomas_encoder_data[3];
     robomas_input_pos_high = robomas_encoder_data[0];
     robomas_input_pos_low = robomas_encoder_data[1];
-    angle_data = robomas_input_pos_high << 8 | robomas_input_pos_low;
+    angle_data = (robomas_input_pos_high << 8 | robomas_input_pos_low) - 4095;
     speed_data = robomas_input_rpm_high << 8 | robomas_input_rpm_low;
 }
 
@@ -24,45 +24,15 @@ float robomas_encoder::show_rpm(){
 }
 
 float robomas_encoder::show_pos(){
-	//上位,下位ビットの統合
-	uint16_t unsigned_robomas_pos_data = robomas_input_pos_high << 8 | robomas_input_pos_low;
-//	int16_t signed_robomas_pos_data = 0;
-//	float signed_robomas_pos_axis_data = 0.0f;
-
-	signed_robomas_pos_data = unsigned_robomas_pos_data;
-	signed_robomas_pos_axis_data = ((static_cast<float>(signed_robomas_pos_data) / 22.75f) / 36.0f) - 5.0f;
-
-	const bool gear_rotation_check_0 = signed_robomas_pos_axis_data > 0 && save_before_axis_pos < 0;
-	const bool gear_rotation_check_1 = signed_robomas_pos_axis_data < 0 && save_before_axis_pos > 0;
-	const bool gear_rotation_check_2 = signed_robomas_pos_axis_data > 2.5f && save_before_axis_pos < -2.5f; 
-	const bool gear_rotation_check_3 = signed_robomas_pos_axis_data < -2.5f && save_before_axis_pos > 2.5f;
-	if(gear_rotation_check_0 && gear_rotation_check_2){
-		float high_gap = 5.0f - signed_robomas_pos_axis_data;
-		float low_gap = save_before_axis_pos - (-5.0f);
-		debug_robomas_pos = high_gap + low_gap;
-	}else if(gear_rotation_check_1 && gear_rotation_check_3){
-		float high_gap = 5.0f - save_before_axis_pos;
-		float low_gap = signed_robomas_pos_axis_data - (-5.0f);
-		debug_robomas_pos = high_gap + low_gap;
-	}else{
-		debug_robomas_pos = signed_robomas_pos_axis_data - save_before_axis_pos;
-	}
-	save_before_axis_pos = signed_robomas_pos_axis_data;
-	static int counter = 0;
-	if (counter != 0) ruisekiwa += debug_robomas_pos;
-	counter++;
-	return ruisekiwa;
+	ruisekiwa = update_angle(angle_data, speed_data);
+	result_pos += (ruisekiwa - last_data);
+	last_data = ruisekiwa;
+	return result_pos;
 }
 
 void robomas_encoder::first_axis_pos(){
-	//上位,下位ビットの統合
-	uint16_t unsigned_robomas_pos_data = robomas_input_pos_high << 8 | robomas_input_pos_low;
-//	int16_t signed_robomas_pos_data = 0;
-	float signed_robomas_pos_axis_data = 0.0f;
-
-	signed_robomas_pos_data = unsigned_robomas_pos_data;
-	signed_robomas_pos_axis_data = (static_cast<float>(signed_robomas_pos_data) / 36.0f);
-	save_before_axis_pos = signed_robomas_pos_axis_data;
+	ruisekiwa = update_angle(angle_data, speed_data);
+	last_data = ruisekiwa;
 	return;
 }
 
@@ -79,4 +49,22 @@ void robomas_encoder::change_motor_type(robomas_motor_type_enum motor_type){
 			motor_gear_ratio = 19.2f; /* 3591.0f / 187.0f  を近似*/
 			break;
 	}
+}
+
+//from taichi_encoder
+float robomas_encoder::update_angle(int16_t angle,int16_t speed){
+//    angle = angle&(resolution-1);//一応マスク
+//    int angle_MSB = (angle>>(resolution_bit-1))&0b1;
+//    int old_angle_MSB = (old_angle>>(resolution_bit-1))&0b1;
+    bool angle_MSB = (angle > 0);
+    bool old_angle_MSB = (old_angle > 0);
+
+    if(old_angle_MSB == 1 && angle_MSB == 0 && speed > 0){
+    	turn_count++;
+    }else if(old_angle_MSB == 0 && angle_MSB == 1 && speed < 0){
+    	turn_count--;
+    }
+
+    old_angle = angle;
+    return angle_to_rad*(angle + turn_count*resolution);
 }
