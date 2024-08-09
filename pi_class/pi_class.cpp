@@ -2,7 +2,7 @@
 //実際にPI制御を計算するメソッド
 float pi_class::pi_calc(float current_value){
     //計算
-    const float error = terget_value - current_value; //エラー値(目標との差)
+    const float error = target_value - current_value; //エラー値(目標との差)
     integral += error * delta_t; //積分を差分の累積で代用
     // const float derivative = (error - prev_error) / delta_t; //微分
     // prev_error = error; //エラー値保存)(微分)
@@ -26,8 +26,8 @@ float pi_class::pi_calc(float current_value){
 }
 
 //目標値を変更するメソッド
-void pi_class::update_terget(float new_terget_value){
-    terget_value = new_terget_value;
+void pi_class::update_target(float new_target_value){
+    target_value = new_target_value;
     return;
 }
 
@@ -57,7 +57,7 @@ float pi_class::run_pi_controller(float current_value){
     if(pi_on == true){
         result = pi_calc(current_value);
     }else{
-        result = terget_value; //目標値をそのまま返すようになる
+        result = target_value; //目標値をそのまま返すようになる
     }
     _debug_result = result;
     return result;

@@ -21,7 +21,7 @@ private:
     //delta_t(loop_time/コンストラクタで設定できるようにする) (単位 sec)
     const float delta_t;
     //目標値
-    float terget_value = 0.0f;
+    float target_value = 0.0f;
     //積分累積値
     float integral = 0.0f;
     //前回の差分値(d制御準備工事)
@@ -35,7 +35,7 @@ public:
     //コンストラクタ
     pi_class(float _gain_p, float _gain_i, float _gain_d, float _delta_t):gain_p(_gain_p), gain_i(_gain_i), gain_d(_gain_d), delta_t(_delta_t){}
     float run_pi_controller(float);
-    void update_terget(float);
+    void update_target(float);
     void reset_integral();
     void pi_enabled(bool);
     void update_p_gain(float);
