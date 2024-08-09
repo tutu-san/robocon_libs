@@ -27,8 +27,31 @@ float pi_class::pi_calc(float current_value){
 
 //目標値を変更するメソッド
 void pi_class::update_target(float new_target_value){
-    target_value = new_target_value;
+    if(new_target_value > target_upper_limit){
+        target_value = target_upper_limit;
+    }else if(new_target_value < target_lower_limit){
+        target_value = target_lower_limit;
+    }else{
+        target_value = new_target_value;
+    }
     return;
+}
+
+//目標値の変更に制限をかけるメソッド(>0なら上限 <0なら下限とするが、オプションで絶対値とすることができる)
+//update_target()が、自動設定される場合に制限をかけられるようにする
+void pi_class::set_target_limit(float new_target_limit, bool is_abs_target_limit){
+    if(is_abs_target_limit){
+        target_lower_limit = -fabs(new_target_limit);
+        target_upper_limit = fabs(new_target_limit);
+    }else{
+        if(new_target_limit > 0){
+            target_upper_limit = new_target_limit;
+        }else if(new_target_limit < 0){
+            target_lower_limit = new_target_limit;
+        }else{
+            set_target_limit(0, true);
+        }
+    }
 }
 
 //累積値(積分値)をリセットするメソッド
