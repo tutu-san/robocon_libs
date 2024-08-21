@@ -20,13 +20,24 @@ enum class board_select_enum : uint64_t{
 };
 
 //(common) board_number
-constexpr static std::array<uint64_t, 4> board_number_arr = {
+constexpr static std::array<uint64_t, 16> board_number_arr = {
     0x00000000,
     0x00010000,
     0x00020000,
     0x00030000,
+    0x00040000,
+    0x00050000,
+    0x00060000,
+    0x00070000,
+    0x00080000,
+    0x00090000,
+    0x000A0000,
+    0x000B0000,
+    0x000C0000,
+    0x000D0000,
+    0x000E0000,
+    0x000F0000,
 };
-constexpr static uint64_t board_number = board_number_arr[0];
 
 //power_board
 //contents_select
