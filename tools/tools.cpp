@@ -1,10 +1,31 @@
 #include "tools.hpp"
+#include "robomas_encoder.hpp"
 //単位変換系
 // rad/s -> rpm
 float rad_per_sec_to_rpm(float rad_par_sec){
     constexpr static float rad_per_sec_to_rpm_constant = 60.0f / (2.0f * M_PI);
     return rad_par_sec * rad_per_sec_to_rpm_constant;
 }
+//rad -> degree
+float rad_to_degree(float rad){
+    constexpr static float rad_to_degree_constant = 180.0f / M_PI;
+    return rad * rad_to_degree_constant;
+}
+//degree -> robomas_encoder_angle(a.k.a taichi_encoder_input)
+float degree_to_robomas_encoder_angle(float target_deg, float now_pos, float gear_ratio){
+    //taichi encoder
+    const size_t resolution_bit = 13;
+    const int resolution = 1<<resolution_bit;
+    const float angle_to_rad = 2*M_PI/(float)resolution;
+
+    const int minius = target_deg > 0 ? 1 : -1;
+    const int counter_36 = abs(target_deg) / 10;
+    const float amari = ((abs((int)target_deg) % 10) / 10.0f) * 8191.0f;
+    const float result = ((angle_to_rad * (amari + counter_36 * resolution * minius)) / 36.0f) + now_pos;
+
+    return result * gear_ratio;
+}
+
 //型変更系
 //uint8_t -> float
 float uint8_to_float(uint8_t(&uint_datas)[8]){
