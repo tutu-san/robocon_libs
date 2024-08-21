@@ -1,5 +1,5 @@
 #include "tools.hpp"
-#include "robomas_encoder.hpp"
+#include "../robomas_encoder/robomas_encoder.hpp"
 //単位変換系
 // rad/s -> rpm
 float rad_per_sec_to_rpm(float rad_par_sec){
@@ -21,9 +21,9 @@ float degree_to_robomas_encoder_angle(float target_deg, float now_pos, float gea
     const int minius = target_deg > 0 ? 1 : -1;
     const int counter_36 = abs(target_deg) / 10;
     const float amari = ((abs((int)target_deg) % 10) / 10.0f) * 8191.0f;
-    const float result = ((angle_to_rad * (amari + counter_36 * resolution * minius)) / 36.0f) + now_pos;
+    const float result = ((angle_to_rad * (amari + counter_36 * resolution * minius)) / 36.0f);
 
-    return result * gear_ratio;
+    return (result * gear_ratio) + now_pos;
 }
 
 //型変更系
