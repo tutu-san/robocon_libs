@@ -36,9 +36,6 @@ private:
     constexpr static float angle_to_rad = 2*M_PI/(float)resolution;
     int32_t turn_count = 0;
     int16_t old_angle = 0;
-
-
-
 public:
     robomas_encoder(robomas_motor_type_enum _motor_type){
         change_motor_type(_motor_type);
