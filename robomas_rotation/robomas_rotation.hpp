@@ -25,5 +25,6 @@ public:
     robomas_rotation(void* _can_handle): can_handle(_can_handle){}
     void rotate();
     void input_rotation_data(int, float);
+    int16_t show_pwm_data(int);
 };
 #endif

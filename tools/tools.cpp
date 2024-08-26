@@ -51,11 +51,24 @@ int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low){
     //おしまい
     return signed_int_data;
 }
+//uint8_t -> uint64_t
+uint64_t uint8_to_uint64(uint8_t(&input_data)[8]){
+    //上位,中位,下位,下位ビットの統合
+    uint64_t unsigned_int_data = input_data[0] << 56 | input_data[1] << 48 | input_data[2] << 40 | input_data[3] << 32 | input_data[4] << 24 | input_data[5] << 16 | input_data[6] << 8 | input_data[7];
+    //おしまい
+    return unsigned_int_data;
+}
 //float -> uint8_t
 void float_to_uint8(float input_float_data, uint8_t(&output_uint8_datas)[8]){
     const uint32_t tmp_32bits_data =std::bit_cast<uint32_t>(input_float_data);
     for(int i = 0; i < 4; i++){
         output_uint8_datas[i] = static_cast<uint8_t>(tmp_32bits_data >> (i * 8));
     }
+    return;
+}
+//uint16_t -> uint8_t
+void uint16_to_uint8(uint16_t input, uint8_t(&output_uint8_datas)[8]){
+    output_uint8_datas[0] = input >> 8;
+    output_uint8_datas[1] = input & 0x00FF;
     return;
 }
