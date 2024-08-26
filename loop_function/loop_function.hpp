@@ -3,18 +3,35 @@
 #define LOOP_FUNC
 
 #include <functional>
+#include "../tools/tools.hpp"
 
-class loop_function{
-private:
-    int execution_interval; //ms
-    // std::function<void()>function;
-    void (*function)();
-    int elapsed_time_after_execution = 0; //ms
+class interrupt_handler_base{
+protected:
+    int execution_interval; //ms (関数の実行間隔設定)
+    int elapsed_time_after_execution = 0; //ms (前回の実行からの経過時間)
 public:
-    loop_function(void(*_function)(), int _interval):
- execution_interval(_interval),function(_function) {}
-    void execute(int);
+    interrupt_handler_base(int _execution_interval){
+        execution_interval = _execution_interval > 0 ? _execution_interval : 0;
+    }
     void change_interval(int);
+};
+
+class interrupt_handler_no_argment : public interrupt_handler_base{
+private:
+    void (*function)();
+public:
+    interrupt_handler_no_argment(void(*_function)(), int _execution_interval)
+    :function(_function), interrupt_handler_base(_execution_interval){}
+    void execute(int);
+};
+
+class timer_function : interrupt_handler_base{
+private:
+    void (*function)(bool);
+public:
+    timer_function(void(*_function)(bool), int _execution_interval)
+    :function(_function), interrupt_handler_base(_execution_interval){}
+    void execute(int);
 };
 
 #endif
