@@ -54,7 +54,14 @@ int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low){
 //uint8_t -> uint64_t
 uint64_t uint8_to_uint64(uint8_t(&input_data)[8]){
     //上位,中位,下位,下位ビットの統合
-    uint64_t unsigned_int_data = input_data[0] << 56 | input_data[1] << 48 | input_data[2] << 40 | input_data[3] << 32 | input_data[4] << 24 | input_data[5] << 16 | input_data[6] << 8 | input_data[7];
+    uint64_t unsigned_int_data = static_cast<uint64_t>(input_data[0]) << 56 |
+    								static_cast<uint64_t>(input_data[1]) << 48 |
+									static_cast<uint64_t>(input_data[2]) << 40 |
+									static_cast<uint64_t>(input_data[3]) << 32 |
+									static_cast<uint64_t>(input_data[4]) << 24 |
+									static_cast<uint64_t>(input_data[5]) << 16 |
+									static_cast<uint64_t>(input_data[6]) << 8 |
+									static_cast<uint64_t>(input_data[7]);
     //おしまい
     return unsigned_int_data;
 }
