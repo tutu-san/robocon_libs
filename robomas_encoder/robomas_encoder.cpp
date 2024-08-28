@@ -6,8 +6,11 @@ void robomas_encoder::input_encoder_data(uint8_t robomas_encoder_data[8]){
     robomas_input_rpm_low = robomas_encoder_data[3];
     robomas_input_pos_high = robomas_encoder_data[0];
     robomas_input_pos_low = robomas_encoder_data[1];
+    robomas_input_current_high = robomas_encoder_data[4];
+    robomas_input_current_low = robomas_encoder_data[5];
     angle_data = (robomas_input_pos_high << 8 | robomas_input_pos_low) - 4095;
     speed_data = robomas_input_rpm_high << 8 | robomas_input_rpm_low;
+    current_data = robomas_input_current_high << 8 | robomas_input_current_low; //なんかちがう
 }
 
 float robomas_encoder::show_rpm(){

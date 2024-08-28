@@ -24,6 +24,12 @@ private:
     float debug_robomas_pos = 0.0f;
     float save_before_axis_pos = 0.0f;
     int default_position = 0;
+    uint8_t robomas_input_rpm_high = 0, robomas_input_rpm_low = 0; //save robomas_encoder_data
+	uint8_t robomas_input_pos_high = 0, robomas_input_pos_low = 0;
+	uint8_t robomas_input_current_high = 0, robomas_input_current_low = 0;
+	int16_t angle_data;
+	int16_t speed_data;
+	int16_t current_data;
 
     float ruisekiwa = 0.0f;
     float last_data = 0.0f;
@@ -43,11 +49,6 @@ public:
 
     float motor_gear_ratio;
     float result_pos = 0.0f;
-
-    uint8_t robomas_input_rpm_high = 0, robomas_input_rpm_low = 0; //save robomas_encoder_data
-    uint8_t robomas_input_pos_high = 0, robomas_input_pos_low = 0;
-    int16_t angle_data;
-    int16_t speed_data;
 
     void change_motor_type(robomas_motor_type_enum motor_type);
     void input_encoder_data(uint8_t[8]);
