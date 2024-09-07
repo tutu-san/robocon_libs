@@ -7,7 +7,7 @@ float pi_class::pi_calc(float current_value){
     // const float derivative = (error - prev_error) / delta_t; //微分
     // prev_error = error; //エラー値保存)(微分)
 
-    clamp(integral, -10000.0f, 10000.0f); //累積値上限設定 必要に応じて変更
+    clamp(integral, -1000.0f, 1000.0f); //累積値上限設定 必要に応じて変更
 
     //gainをかける
     float result_p = 0.0f, result_i = 0.0f;
@@ -82,6 +82,7 @@ float pi_class::run_pi_controller(float current_value){
     }else{
         result = target_value; //目標値をそのまま返すようになる
     }
+    _debug_result = result;
     return result;
 }
 
