@@ -2,36 +2,20 @@
 
 #ifdef ENABLE_CAN
 //int can_send_num;
-//struct can_send_fuffer
-can_send_buffer can1_send_buffer;
-can_send_buffer can2_send_buffer;
 //input can_data
-void can_input_transmit_buffer(void* _can_handle, uint32_t can_id, uint8_t(&send_data)[8]){
-    CAN_HandleTypeDef* can_handle = (CAN_HandleTypeDef*)_can_handle;
-    if(can_handle == &hcan1){
-        ;;
-        can1_send_buffer.id[can1_send_buffer.input_num] = can_id;
-        for(int i=0; i<8; i++){
-            can1_send_buffer.data[can1_send_buffer.input_num][i] = send_data[i];
-        }
-        can1_send_buffer.input_num++;
-        if(can1_send_buffer.input_num >= 8) can1_send_buffer.input_num = 0;
-        return;
-    }else if(can_handle == &hcan2){
-        ;;
-        can2_send_buffer.id[can2_send_buffer.input_num] = can_id;
-        for(int i=0; i<8; i++){
-            can2_send_buffer.data[can2_send_buffer.input_num][i] = send_data[i];
-        }
-        can2_send_buffer.input_num++;
-        if(can2_send_buffer.input_num >= 8) can2_send_buffer.input_num = 0;
-        return;
+void can_transmit::can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data)[8]){
+    id_buff[input_num] = can_id;
+    for(int i=0; i<8; i++){
+        data_buff[input_num][i] = send_data[i];
     }
+    //リングバッファを実現
+    input_num++;
+    if(input_num >= 8)input_num = 0;
+    return;
 }
 
 //can transmit_extid
-void can_transmit(void* _can_handle){
-    CAN_HandleTypeDef* can_handle = (CAN_HandleTypeDef*)_can_handle;
+void can_transmit::transmit(){
     CAN_TxHeaderTypeDef tx_header;
     uint32_t mailbox;
     //現在のハードウェアバッファの空き容量を問い合わせる
@@ -40,59 +24,36 @@ void can_transmit(void* _can_handle){
         HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
         return; 
     }
-    if(can_handle == &hcan1){
-        //hcan1送信試行
-        tx_header.RTR = CAN_RTR_DATA;
-        tx_header.DLC = 8;
-        tx_header.TransmitGlobalTime = DISABLE;
+    //can transmit
+    tx_header.RTR = CAN_RTR_DATA;
+    tx_header.DLC = 8;
+    tx_header.TransmitGlobalTime = DISABLE;
+    if(ext_id){
         tx_header.IDE = CAN_ID_EXT;
-        tx_header.ExtId = can1_send_buffer.id[can1_send_buffer.output_num];
-        if(can1_send_buffer.id[can1_send_buffer.output_num] == 0){
-            can1_send_buffer.output_num++;
-            if(can1_send_buffer.output_num >= 8) can1_send_buffer.output_num = 0;
-            return; //id=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
-        }
-        HAL_CAN_AddTxMessage(can_handle, &tx_header, can1_send_buffer.data[can1_send_buffer.output_num], &mailbox);
-        can1_send_buffer.output_num++;
-        if(can1_send_buffer.output_num >= 8) can1_send_buffer.output_num = 0;
-        //データクリーニング
-        for(int i = 0; i<8; i++){
-            can1_send_buffer.data[can1_send_buffer.output_num][i] = 0;
-        }
-        can1_send_buffer.id[can1_send_buffer.output_num] = 0;
-        //送信番号更新
-        can1_send_buffer.output_num++;
-        if(can1_send_buffer.output_num >= 8) can1_send_buffer.output_num = 0;
-        HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
-        return;
-    }else if(can_handle == &hcan2){
-        //hcan2送信試行
-        tx_header.RTR = CAN_RTR_DATA;
-        tx_header.DLC = 8;
-        tx_header.TransmitGlobalTime = DISABLE;
-        tx_header.IDE = CAN_ID_EXT;
-        tx_header.ExtId = can2_send_buffer.id[can2_send_buffer.output_num];
-        if(can2_send_buffer.id[can2_send_buffer.output_num] == 0){
-            can2_send_buffer.output_num++;
-            if(can2_send_buffer.output_num >= 8) can2_send_buffer.output_num = 0;
-            return; //id=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
-        }
-        if(can1_send_buffer.id[can1_send_buffer.output_num] == 0) return; //id=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
-        HAL_CAN_AddTxMessage(can_handle, &tx_header, can2_send_buffer.data[can2_send_buffer.output_num], &mailbox);
-        //データクリーニング
-        for(int i = 0; i<8; i++){
-            can2_send_buffer.data[can2_send_buffer.output_num][i] = 0;
-        }
-        can2_send_buffer.id[can2_send_buffer.output_num] = 0;
-        //送信番号更新
-        can2_send_buffer.output_num++;
-        if(can2_send_buffer.output_num >= 8) can2_send_buffer.output_num = 0;
-        HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
-        return;
+        tx_header.ExtId = id_buff[output_num];
+    }else{
+        tx_header.IDE = CAN_ID_STD;
+        tx_header.StdId = id_buff[output_num];
     }
+    if(id_buff[output_num] == 0){
+        output_num++;
+        if(output_num >= 8) output_num = 0;
+        return; //id_buff=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
+    }
+    HAL_CAN_AddTxMessage(can_handle, &tx_header, data_buff[output_num], &mailbox);
+    //データクリーニング(送信後のデータの多重送信を防ぐ)
+    for(int i = 0; i<8; i++){
+        data_buff[output_num][i] = 0;
+    }
+    id_buff[output_num] = 0;
+    //送信番号更新
+    output_num++;
+    if(output_num >= 8) output_num = 0;
+    HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
     return;
 }
-
+#endif
+#ifdef OLD_CAN
 //互換性を保つため、一時的に保管(再書き込みするため)
 void can_send(void* _can_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
 	CAN_HandleTypeDef* can_handle = (CAN_HandleTypeDef*)_can_handle;
