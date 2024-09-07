@@ -47,6 +47,11 @@ void can_transmit(void* _can_handle){
         tx_header.TransmitGlobalTime = DISABLE;
         tx_header.IDE = CAN_ID_EXT;
         tx_header.ExtId = can1_send_buffer.id[can1_send_buffer.output_num];
+        if(can1_send_buffer.id[can1_send_buffer.output_num] == 0){
+            can1_send_buffer.output_num++;
+            if(can1_send_buffer.output_num >= 8) can1_send_buffer.output_num = 0;
+            return; //id=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
+        }
         HAL_CAN_AddTxMessage(can_handle, &tx_header, can1_send_buffer.data[can1_send_buffer.output_num], &mailbox);
         can1_send_buffer.output_num++;
         if(can1_send_buffer.output_num >= 8) can1_send_buffer.output_num = 0;
@@ -67,6 +72,12 @@ void can_transmit(void* _can_handle){
         tx_header.TransmitGlobalTime = DISABLE;
         tx_header.IDE = CAN_ID_EXT;
         tx_header.ExtId = can2_send_buffer.id[can2_send_buffer.output_num];
+        if(can2_send_buffer.id[can2_send_buffer.output_num] == 0){
+            can2_send_buffer.output_num++;
+            if(can2_send_buffer.output_num >= 8) can2_send_buffer.output_num = 0;
+            return; //id=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
+        }
+        if(can1_send_buffer.id[can1_send_buffer.output_num] == 0) return; //id=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
         HAL_CAN_AddTxMessage(can_handle, &tx_header, can2_send_buffer.data[can2_send_buffer.output_num], &mailbox);
         //データクリーニング
         for(int i = 0; i<8; i++){
