@@ -9,13 +9,15 @@
 #ifdef ENABLE_CAN
 
 class can_transmit{
-public:
-    uint32_t id_buff[8]{};
-    uint8_t data_buff[8][8]{};
-    int input_num=0;
-    int output_num=0;
-    bool ext_id;
+private:
+    int hardware_fifo_freelevel=0;
     CAN_HandleTypeDef* can_handle;
+	bool ext_id;
+	uint32_t id_buff[8]{};
+	uint8_t data_buff[8][8]{};
+	int input_num=0;
+	int output_num=0;
+public:
     can_transmit(CAN_HandleTypeDef* _can_handle, bool _ext_id = false) : can_handle(_can_handle), ext_id(_ext_id){}
     void transmit();
     void can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data)[8]);

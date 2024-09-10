@@ -19,7 +19,8 @@ void can_transmit::transmit(){
     CAN_TxHeaderTypeDef tx_header;
     uint32_t mailbox;
     //現在のハードウェアバッファの空き容量を問い合わせる
-    if(HAL_CAN_GetTxMailboxesFreeLevel(can_handle) < 1){
+    hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
+    if(hardware_fifo_freelevel < 1){
         //バッファが空きでない場合は青ランプ点灯の上、何もしない(送信成功まで点灯)
         HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
         return; 
