@@ -20,9 +20,9 @@ void can_transmit::transmit(){
     uint32_t mailbox;
     //現在のハードウェアバッファの空き容量を問い合わせる
     hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
-    if(hardware_fifo_freelevel < 1){
+    if(hardware_fifo_freelevel < 2){
         //バッファが空きでない場合は青ランプ点灯の上、何もしない(送信成功まで点灯)
-        HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LEDG_GPIO_Port, LEDG_Pin, GPIO_PIN_SET);
         return; 
     }
     //can transmit
@@ -50,7 +50,7 @@ void can_transmit::transmit(){
     //送信番号更新
     output_num++;
     if(output_num >= 8) output_num = 0;
-    HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LEDG_GPIO_Port, LEDG_Pin, GPIO_PIN_RESET);
     return;
 }
 #endif
