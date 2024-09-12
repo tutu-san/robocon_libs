@@ -13,7 +13,7 @@ enum class read_or_write_enum : uint64_t{
 
 //board_select
 enum class board_select_enum : uint64_t{
-    power_board = 0x04000000,
+    power_board = 0x03000000,
     ccc_board = 0x00000000,
     gpio_board = 0x02000000,
     dcmd_board = 0x01000000
@@ -102,7 +102,9 @@ enum class motor_type_enum : uint8_t {
 enum class control_mode_enum : uint8_t {
     PWM_MODE,
     SPD,
-    POS
+    POS,
+    POSITIVE_MIRROR,
+    NEGATIVE_MIRROR
 };
 
 //gpio_board

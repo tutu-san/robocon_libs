@@ -35,6 +35,6 @@ void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], u
 	robomas_send_data[7] = (uint16_t)robomas_int16_pwm_data[3] & 0xff;
 }
 
-int16_t robomas_rotation::show_pwm_data(int motor_number){
-	return robomas_int16_pwm_data[motor_number];
+float robomas_rotation::show_pwm_data(int motor_number){
+	return robomas_pwm_data[motor_number];
 }
