@@ -102,7 +102,9 @@ enum class motor_type_enum : uint8_t {
 enum class control_mode_enum : uint8_t {
     PWM_MODE,
     SPD,
-    POS
+    POS,
+    POSITIVE_MIRROR,
+    NEGATIVE_MIRROR
 };
 
 //gpio_board
