@@ -29,7 +29,7 @@ private:
 	uint8_t robomas_input_current_high = 0, robomas_input_current_low = 0;
 	int16_t angle_data;
 	int16_t speed_data;
-	int16_t current_data;
+	uint16_t current_data;
 
     float ruisekiwa = 0.0f;
     float last_data = 0.0f;
