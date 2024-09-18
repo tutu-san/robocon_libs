@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdint>
 #include <bit>
+#include <array>
 //クランプ
 template<typename T>
 void clamp(T&original_data, T min_value, T max_value){

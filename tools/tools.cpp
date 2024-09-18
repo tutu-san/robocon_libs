@@ -23,14 +23,14 @@ float degree_to_robomas_encoder_angle(float target_deg, float now_pos, float gea
     const float amari = ((abs((int)target_deg) % 10) / 10.0f) * 8191.0f;
     const float result = ((angle_to_rad * (amari + counter_36 * resolution * minius)) / 36.0f);
 
-    return (result * gear_ratio) + now_pos;
+    return (result * gear_ratio); //現在角度との差を出し、あとどのくらい修正が必要か見る
 }
 
 //型変更系
 //uint8_t -> float
 float uint8_to_float(uint8_t(&uint_datas)[8]){
     //uint8_t[4] to float
-	uint8_t tmp2[4];
+	std::array<uint8_t, 4>tmp2;
 	float result;
 	for(int i=0; i<4; i++){
 		tmp2[i] = uint_datas[i];
