@@ -8,7 +8,7 @@
 //read or write(基板側から見て)
 enum class read_or_write_enum : uint64_t{
     read = 0x00000000,
-    write = 0x10000000
+    write = 0x00000000 //同一になった
 };
 
 //board_select
