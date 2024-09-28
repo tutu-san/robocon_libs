@@ -3,7 +3,7 @@
 #ifdef ENABLE_CAN
 //int can_send_num;
 //input can_data
-void can_transmit::can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data)[8]){
+void can_transmit::can_input_transmit_buffer(uint32_t can_id, const uint8_t(&send_data)[8]){
     id_buff[input_num] = can_id;
     for(int i=0; i<8; i++){
         data_buff[input_num][i] = send_data[i];
