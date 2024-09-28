@@ -2,6 +2,7 @@
  * @file motor_rotation.hpp
  * @brief motor_rotation header file
  * @details DCモータの回転指令を送るクラス、メソッドの実装は motor_rotation.cppを参照されたい
+ * @attention Note: HAL_TIM_PWM_Start()は、hal_init()後に実行したほうが良い(経験則)ので、別途実行すること
  */
 #pragma once
 #ifndef MOTOR_ROTATION
@@ -21,6 +22,7 @@ public:
     virtual void rotate(float);
 };
 
+//1つのPWM入力・1つの方向設定入力で動かすモータードライバー向け
 class ucs3_rotation : public motor_rotation{
 protected:
     GPIO_TypeDef* gpio_port;
@@ -32,7 +34,10 @@ public:
     void rotate(float) override;
 };
 
+//1つのPWM入力・2つの方向設定入力で動かすモータードライバー向け
+//今度作る(VNH rotation)
 
+//2つのPWM入力だけで動かすモータードライバー向け
 class dcmd_rotation : ucs3_rotation {
 private:
 	TIM_HandleTypeDef* tim_handle_inverse;
