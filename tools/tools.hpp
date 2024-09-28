@@ -25,6 +25,8 @@ void clamp(T&original_data, T min_value, T max_value){
 float rad_per_sec_to_rpm(float rad_par_sec_input);
 //rad -> deg
 float rad_to_degree(float rad);
+//deg->rad
+float deg_to_rad(float deg);
 //deg -> robomas_angle
 float degree_to_robomas_encoder_angle(float target_deg, float now_pos, float gear_ratio);
 //型変更系

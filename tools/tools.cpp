@@ -11,6 +11,10 @@ float rad_to_degree(float rad){
     constexpr static float rad_to_degree_constant = 180.0f / M_PI;
     return rad * rad_to_degree_constant;
 }
+float deg_to_rad(float deg){
+	constexpr static float deg_to_rad_constant = M_PI / 180.0f;
+	return deg * deg_to_rad_constant;
+}
 //degree -> robomas_encoder_angle(a.k.a taichi_encoder_input)
 float degree_to_robomas_encoder_angle(float target_deg, float now_pos, float gear_ratio){
     //taichi encoder
