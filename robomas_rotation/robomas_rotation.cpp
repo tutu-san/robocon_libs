@@ -3,8 +3,8 @@
 void robomas_rotation::input_rotation_data(int motor_number, float input_power_ratio){
 	if(motor_number >= 4) return; //範囲外アクセス防止
 	clamp(input_power_ratio, -1.0f, 1.0f);
-	float input_pwm_data = input_power_ratio * 14000.0f;
-	clamp(input_pwm_data, -14000.0f, 14000.0f);
+	float input_pwm_data = input_power_ratio * motor_max_power[motor_number];
+	clamp(input_pwm_data, -motor_max_power[motor_number], motor_max_power[motor_number]);
 	robomas_pwm_data[motor_number] = input_pwm_data;
 }
 
@@ -37,4 +37,15 @@ void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], u
 
 float robomas_rotation::show_pwm_data(int motor_number){
 	return robomas_pwm_data[motor_number];
+}
+
+void robomas_rotation::select_max_power(uint8_t motor_number, uint8_t temp_data){
+	//c610 c620を見分ける
+	if(temp_data){
+		//非0なら c620
+		motor_max_power[motor_number] = 16380.0f;
+	}else{
+		//0ならc610
+		motor_max_power[motor_number] = 14000.0f;
+	}
 }
