@@ -4,9 +4,9 @@
 
 #include "main.h" //cube mx 生成コードを使用しているならこれで行けるはず
 #include <cstdint>
-#define ENABLE_CAN
+#define ENABLE_CAN 1
 
-#ifdef ENABLE_CAN
+#if ENABLE_CAN
 
 class can_transmit{
 private:

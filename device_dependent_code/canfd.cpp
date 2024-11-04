@@ -1,6 +1,6 @@
 #include "canfd.hpp"
 
-#ifdef ENABLE_CANFD
+#if ENABLE_CANFD
 void can_send(void* _canfd_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
     FDCAN_HandleTypeDef* canfd_handle = (FDCAN_HandleTypeDef*)_canfd_handle;
     FDCAN_TxHeaderTypeDef tx_header;

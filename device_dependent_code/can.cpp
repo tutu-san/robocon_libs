@@ -1,6 +1,6 @@
 #include "can.hpp"
 
-#ifdef ENABLE_CAN
+#if ENABLE_CAN
 //int can_send_num;
 //input can_data
 void can_transmit::can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data)[8]){
