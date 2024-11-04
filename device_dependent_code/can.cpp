@@ -3,10 +3,11 @@
 #if ENABLE_CAN
 //int can_send_num;
 //input can_data
-void can_transmit::can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data)[8]){
+void can_transmit::can_input_transmit_buffer(uint32_t can_id, std::span<uint8_t> can_data){
     id_buff[input_num] = can_id;
-    for(int i=0; i<8; i++){
-        data_buff[input_num][i] = send_data[i];
+    data_size_buff[input_num] = can_data.size();
+    for(int i=0; i<can_data.size(); i++){
+        data_buff[input_num][i] = can_data[i];
     }
     //リングバッファを実現
     input_num++;
@@ -21,13 +22,11 @@ int can_transmit::transmit(){
     //現在のハードウェアバッファの空き容量を問い合わせる
     hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
     if(hardware_fifo_freelevel < 2){
-        //バッファが空きでない場合は青ランプ点灯の上、何もしない(送信成功まで点灯)
-       HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
         return 1; 
     }
     //can transmit
     tx_header.RTR = CAN_RTR_DATA;
-    tx_header.DLC = 8;
+    tx_header.DLC = data_size_buff[output_num];
     tx_header.TransmitGlobalTime = DISABLE;
     if(ext_id){
         tx_header.IDE = CAN_ID_EXT;
@@ -39,7 +38,7 @@ int can_transmit::transmit(){
     if(id_buff[output_num] == 0){
         output_num++;
         if(output_num >= 8) output_num = 0;
-        return; //id_buff=0は、データ無しと判断、送信しない(実際は、cccのnoneに該当)
+        return; //id_buff=0は、データ無しと判断、送信しない(プロトコルによって、0は使用しないようになっている)
     }
     HAL_CAN_AddTxMessage(can_handle, &tx_header, data_buff[output_num], &mailbox);
     //データクリーニング(送信後のデータの多重送信を防ぐ)
@@ -50,7 +49,6 @@ int can_transmit::transmit(){
     //送信番号更新
     output_num++;
     if(output_num >= 8) output_num = 0;
-   HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
     return 0;
 }
 #endif
