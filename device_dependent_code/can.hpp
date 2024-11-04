@@ -19,7 +19,7 @@ private:
 	int output_num=0;
 public:
     can_transmit(CAN_HandleTypeDef* _can_handle, bool _ext_id = false) : can_handle(_can_handle), ext_id(_ext_id){}
-    void transmit();
+    int transmit();
     void can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data)[8]);
 };
 

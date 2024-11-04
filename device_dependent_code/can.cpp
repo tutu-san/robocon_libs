@@ -15,7 +15,7 @@ void can_transmit::can_input_transmit_buffer(uint32_t can_id, uint8_t(&send_data
 }
 
 //can transmit_extid
-void can_transmit::transmit(){
+int can_transmit::transmit(){
     CAN_TxHeaderTypeDef tx_header;
     uint32_t mailbox;
     //現在のハードウェアバッファの空き容量を問い合わせる
@@ -23,7 +23,7 @@ void can_transmit::transmit(){
     if(hardware_fifo_freelevel < 2){
         //バッファが空きでない場合は青ランプ点灯の上、何もしない(送信成功まで点灯)
        HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
-        return; 
+        return 1; 
     }
     //can transmit
     tx_header.RTR = CAN_RTR_DATA;
@@ -51,7 +51,7 @@ void can_transmit::transmit(){
     output_num++;
     if(output_num >= 8) output_num = 0;
    HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
-    return;
+    return 0;
 }
 #endif
 #ifdef OLD_CAN
