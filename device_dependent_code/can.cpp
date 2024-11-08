@@ -42,45 +42,12 @@ int can_transmit::transmit(){
     }
     HAL_CAN_AddTxMessage(can_handle, &tx_header, data_buff[output_num], &mailbox);
     //データクリーニング(送信後のデータの多重送信を防ぐ)
-    for(int i = 0; i<8; i++){
-        data_buff[output_num][i] = 0;
-    }
+    std::fill(data_buff[output_num].begin(), data_buff[output_num].end(), 0);
     id_buff[output_num] = 0;
+    data_size_buff[output_num] = 0;
     //送信番号更新
     output_num++;
     if(output_num >= 8) output_num = 0;
     return 0;
-}
-#endif
-#ifdef OLD_CAN
-//互換性を保つため、一時的に保管(再書き込みするため)
-void can_send(void* _can_handle, uint32_t can_id, uint8_t(&send_data)[8], bool extended_id){
-	CAN_HandleTypeDef* can_handle = (CAN_HandleTypeDef*)_can_handle;
-	CAN_TxHeaderTypeDef tx_header;
-    uint32_t mailbox;
-
-    //header settings
-    tx_header.RTR = CAN_RTR_DATA;
-    tx_header.DLC = 8;
-    tx_header.TransmitGlobalTime = DISABLE;
-    if(extended_id){
-        tx_header.IDE = CAN_ID_EXT;
-        tx_header.ExtId = can_id;
-    }else{
-        tx_header.IDE = CAN_ID_STD;
-        tx_header.StdId = can_id;
-    }
-//    while(HAL_CAN_GetTxMailboxesFreeLevel(can_handle) < 1){
-//    	HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
-//    }
-    if(HAL_CAN_GetTxMailboxesFreeLevel(can_handle) < 1){
-		HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_SET);
-		return;
-	}
-    HAL_GPIO_WritePin(LEDB_GPIO_Port, LEDB_Pin, GPIO_PIN_RESET);
-    HAL_CAN_AddTxMessage(can_handle, &tx_header, send_data, &mailbox);
-//    if(can_handle->Instance == CAN1) can_send_num++;
-//    can_send_num++;
-    return;
 }
 #endif

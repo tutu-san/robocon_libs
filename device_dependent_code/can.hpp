@@ -4,6 +4,8 @@
 
 #include "main.h" //cube mx 生成コードを使用しているならこれで行けるはず
 #include <cstdint>
+#include <array>
+#include <algorithm>
 #include <span>
 #define ENABLE_CAN 1
 
@@ -14,9 +16,9 @@ private:
     int hardware_fifo_freelevel=0;
     CAN_HandleTypeDef* can_handle;
 	bool ext_id;
-	uint32_t id_buff[8]{};
-	uint8_t data_buff[8][8]{};
-    uint8_t data_size_buff[8]{};
+    std::array<uint32_t, 8> id_buff{};
+    std::array<std::array<uint8_t, 8>, 8> data_buff{};
+    std::array<uint8_t, 8> data_size_buff{};
 	int input_num=0;
 	int output_num=0;
 public:
