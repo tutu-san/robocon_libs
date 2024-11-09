@@ -1,13 +1,13 @@
-#include "pi_class.hpp"
+#include "pid_controller.hpp"
 //実際にPI制御を計算するメソッド
-float pi_class::pi_calc(float current_value){
+float pid_controller::pi_calc(float current_value){
     //計算
     const float error = target_value - current_value; //エラー値(目標との差)
     integral += error * delta_t; //積分を差分の累積で代用
     // const float derivative = (error - prev_error) / delta_t; //微分
     // prev_error = error; //エラー値保存)(微分)
 
-    clamp(integral, -1000.0f, 1000.0f); //累積値上限設定 必要に応じて変更
+    clamp(integral, -integral_max, integral_max); //累積値上限設定 必要に応じて変更
 
     //gainをかける
     float result_p = 0.0f, result_i = 0.0f;
@@ -26,7 +26,7 @@ float pi_class::pi_calc(float current_value){
 }
 
 //目標値を変更するメソッド
-void pi_class::update_target(float new_target_value){
+void pid_controller::update_target(float new_target_value){
     if(new_target_value > target_upper_limit){
         target_value = target_upper_limit;
     }else if(new_target_value < target_lower_limit){
@@ -39,7 +39,7 @@ void pi_class::update_target(float new_target_value){
 
 //目標値の変更に制限をかけるメソッド(>0なら上限 <0なら下限とするが、オプションで絶対値とすることができる)
 //update_target()が、自動設定される場合に制限をかけられるようにする
-void pi_class::set_target_limit(float new_target_limit, bool is_abs_target_limit){
+void pid_controller::set_target_limit(float new_target_limit, bool is_abs_target_limit){
 	if(is_abs_target_limit){
         target_lower_limit = -fabs(new_target_limit);
         target_upper_limit = fabs(new_target_limit);
@@ -55,13 +55,13 @@ void pi_class::set_target_limit(float new_target_limit, bool is_abs_target_limit
 }
 
 //累積値(積分値)をリセットするメソッド
-void pi_class::reset_integral(){
+void pid_controller::reset_integral(){
     integral = 0.0f;
     return;
 }
 
 //PI制御器のON/OFFを切り替えるメソッド
-void pi_class::pi_enabled(bool usr_input){
+void pid_controller::pi_enabled(bool usr_input){
     if(usr_input == true){
         pi_on = true;
         return;
@@ -75,7 +75,7 @@ void pi_class::pi_enabled(bool usr_input){
 }
 
 //PI制御器の状態をチェックして実行するメソッド
-float pi_class::run_pi_controller(float current_value){
+float pid_controller::run_pi_controller(float current_value){
     float result = 0.0f;
     if(pi_on == true){
         result = pi_calc(current_value);
@@ -87,16 +87,16 @@ float pi_class::run_pi_controller(float current_value){
 }
 
 //通信でゲインを変更することを想定しているメソッド
-void pi_class::update_p_gain(float new_p_gain){
+void pid_controller::update_p_gain(float new_p_gain){
     gain_p = new_p_gain;
     return;
 }
 
-void pi_class::update_i_gain(float new_i_gain){
+void pid_controller::update_i_gain(float new_i_gain){
     gain_i = new_i_gain;
     return;
 }
 
-float pi_class::show_now_target(){
+float pid_controller::show_now_target(){
     return target_value;
 }
