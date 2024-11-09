@@ -56,6 +56,9 @@ public:
     void reset_positon(int new_default_position = 0);
 
     void first_axis_pos();
+
+    void reset_speed_data();
+    void reset_positon_data();
 };
 
 #endif
