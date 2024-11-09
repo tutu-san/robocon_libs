@@ -22,7 +22,7 @@ int can_transmit::transmit(){
     //現在のハードウェアバッファの空き容量を問い合わせる
     hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
     if(hardware_fifo_freelevel < 2){
-        return 1; 
+        return 0; 
     }
     //can transmit
     tx_header.RTR = CAN_RTR_DATA;
@@ -48,6 +48,6 @@ int can_transmit::transmit(){
     //送信番号更新
     output_num++;
     if(output_num >= 8) output_num = 0;
-    return 0;
+    return static_cast<int>(tx_header.DLC);
 }
 #endif
