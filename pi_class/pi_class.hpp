@@ -45,6 +45,7 @@ public:
     void pi_enabled(bool);
     void update_p_gain(float);
     void update_i_gain(float);
+    float show_now_target();
 };
 
 #endif

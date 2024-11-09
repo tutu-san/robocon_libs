@@ -96,3 +96,7 @@ void pi_class::update_i_gain(float new_i_gain){
     gain_i = new_i_gain;
     return;
 }
+
+float pi_class::show_now_target(){
+    return target_value;
+}
