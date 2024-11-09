@@ -1,7 +1,9 @@
 #include "motor_rotation.hpp"
 
 void motor_rotation::rotate(float motor_pwm){
-	__HAL_TIM_SET_COMPARE(tim_handle, tim_channel, fabs(motor_pwm));
+	//motor_pwmのクランプ
+	clamp(motor_pwm, -1.0f, 1.0f);
+	__HAL_TIM_SET_COMPARE(tim_handle, tim_channel, fabs(motor_pwm) * (tim_handle->Init.Period));
 	return;
 }
 

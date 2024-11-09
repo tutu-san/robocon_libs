@@ -19,7 +19,7 @@ protected:
 public:
     motor_rotation(TIM_HandleTypeDef* _tim_handle, uint32_t _tim_channel):
     tim_handle(_tim_handle), tim_channel(_tim_channel){}
-    virtual void rotate(float);
+    virtual void rotate(float); //引数: -1.0 ~ 1.0
 };
 
 //1つのPWM入力・1つの方向設定入力で動かすモータードライバー向け
@@ -31,7 +31,7 @@ protected:
 public:
     ucs3_rotation(GPIO_TypeDef* _gpio_port, uint16_t _gpio_pin, TIM_HandleTypeDef* _tim_handle, uint32_t _tim_channel, bool _reverse_swtich):
     motor_rotation(_tim_handle, _tim_channel),gpio_port(_gpio_port), gpio_pin(_gpio_pin), reverse_swtich(_reverse_swtich){}
-    void rotate(float) override;
+    void rotate(float) override; //引数: -1.0 ~ 1.0
 };
 
 //1つのPWM入力・2つの方向設定入力で動かすモータードライバー向け
@@ -45,6 +45,6 @@ private:
 public:
     dcmd_rotation(TIM_HandleTypeDef* _tim_handle, uint32_t _tim_channel, TIM_HandleTypeDef* _tim_handle_inverse, uint32_t _tim_channel_inverse, bool _reverse_swtich):
     ucs3_rotation(nullptr, 0, _tim_handle, _tim_channel, _reverse_swtich), tim_handle_inverse(_tim_handle_inverse), tim_channel_inverse(_tim_channel_inverse){}
-    void rotate(float) override;
+    void rotate(float) override; //引数: -1.0 ~ 1.0
 };
 #endif
