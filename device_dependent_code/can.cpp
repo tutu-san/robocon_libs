@@ -22,7 +22,7 @@ int can_transmit::transmit(){
     //現在のハードウェアバッファの空き容量を問い合わせる
     hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
     if(hardware_fifo_freelevel < 2){
-        return 0; 
+        return -1; 
     }
     //can transmit
     tx_header.RTR = CAN_RTR_DATA;
