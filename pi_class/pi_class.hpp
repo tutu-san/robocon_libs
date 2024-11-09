@@ -21,15 +21,14 @@ private:
     float gain_d;
     //delta_t(loop_time/コンストラクタで設定できるようにする) (単位 sec)
     const float delta_t;
-    //目標値
-    float target_value = 0.0f;
+
     //目標値の上限・下限(初期値は無限)
     float target_upper_limit = FLT_MAX;
     float target_lower_limit = -FLT_MAX;
     //積分累積値
     float integral = 0.0f;
     //前回の差分値(d制御準備工事)
-    // float prev_error = 0.0f;
+     float prev_error = 0.0f;
     //PI制御のON/OFF
     bool pi_on = true;
     //PI制御計算の本体
@@ -45,6 +44,10 @@ public:
     void pi_enabled(bool);
     void update_p_gain(float);
     void update_i_gain(float);
+    float show_error();
+
+    //目標値
+        float target_value = 0.0f;
 };
 
 #endif

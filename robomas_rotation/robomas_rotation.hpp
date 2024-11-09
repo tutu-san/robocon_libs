@@ -21,9 +21,9 @@ protected:
     void convert_to_send_data(const float(&)[4], uint8_t(&)[8]);
     float robomas_pwm_data[4] = {0.0f};
 	int16_t robomas_int16_pwm_data[4]; //float to int
-	float motor_max_power[4]{};
 public:
     robomas_rotation(void* _can_handle): can_handle(_can_handle){}
+    float motor_max_power[4]{};
     void rotate();
     void input_rotation_data(int, float);
     float show_pwm_data(int);

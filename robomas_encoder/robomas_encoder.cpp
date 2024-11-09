@@ -71,3 +71,8 @@ float robomas_encoder::update_angle(int16_t angle,int16_t speed){
     old_angle = angle;
     return angle_to_rad*(angle + turn_count*resolution);
 }
+
+void robomas_encoder::ems_reset(){
+	robomas_input_rpm_high = 0;
+	robomas_input_rpm_low = 0;
+}

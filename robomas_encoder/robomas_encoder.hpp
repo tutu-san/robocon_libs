@@ -56,6 +56,8 @@ public:
     void reset_positon(int new_default_position = 0);
 
     void first_axis_pos();
+
+    void ems_reset();
 };
 
 #endif
