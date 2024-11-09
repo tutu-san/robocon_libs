@@ -4,8 +4,8 @@
  * @details PI制御を行うクラスが入っている、メソッドの実装は pid_controller.cppを参照されたい
  */
 #pragma once
-#ifndef PI_CLASS
-#define PI_CLASS
+#ifndef PID_CONTOLLER
+#define PID_CONTOLLER
 
 //include
 #include <cstdint>
