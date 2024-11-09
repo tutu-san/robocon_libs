@@ -39,6 +39,10 @@ float robomas_rotation::show_pwm_data(int motor_number){
 	return robomas_pwm_data[motor_number];
 }
 
+float robomas_rotation::show_max_motor_power(int motor_number){
+	return motor_max_power[motor_number];
+}
+
 void robomas_rotation::select_max_power(uint8_t motor_number, uint8_t temp_data){
 	//c610 c620を見分ける
 	if(temp_data){

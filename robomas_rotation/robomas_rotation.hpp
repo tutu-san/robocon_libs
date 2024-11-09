@@ -27,6 +27,7 @@ public:
     void rotate();
     void input_rotation_data(int, float);
     float show_pwm_data(int);
+    float show_max_motor_power(int);
     void select_max_power(uint8_t, uint8_t);
 };
 #endif
