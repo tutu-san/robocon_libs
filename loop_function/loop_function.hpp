@@ -21,7 +21,7 @@ private:
     void (*function)();
 public:
     interrupt_function_no_argment(void(*_function)(), int _execution_interval)
-    :function(_function), interrupt_handler_base(_execution_interval){}
+    :function(_function), interrupt_function_base(_execution_interval){}
     void execute(int);
 };
 
@@ -30,7 +30,7 @@ private:
     void (*function)(bool);
 public:
     timer_function(void(*_function)(bool), int _execution_interval)
-    :function(_function), interrupt_handler_base(_execution_interval){}
+    :function(_function), interrupt_function_base(_execution_interval){}
     void execute(int);
 };
 

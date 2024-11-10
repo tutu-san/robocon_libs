@@ -13,6 +13,6 @@
 class pi_class : public pid_controller{
 public:
     using pid_controller::pid_controller;
-}
+};
 
 #endif

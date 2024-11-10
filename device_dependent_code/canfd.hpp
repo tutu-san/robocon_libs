@@ -7,7 +7,7 @@
 #include <string>
 #include <span>
 
-#define ENABLE_CANFD 1
+#define ENABLE_CANFD 0
 
 #if ENABLE_CANFD
 void can_send(void* _canfd_handle, uint32_t can_id, std::span<uint8_t> can_data, bool extended_id = false);

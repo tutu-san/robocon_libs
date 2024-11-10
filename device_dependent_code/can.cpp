@@ -38,9 +38,9 @@ int can_transmit::transmit(){
     if(id_buff[output_num] == 0){
         output_num++;
         if(output_num >= 8) output_num = 0;
-        return; //id_buff=0は、データ無しと判断、送信しない(プロトコルによって、0は使用しないようになっている)
+        return 0; //id_buff=0は、データ無しと判断、送信しない(プロトコルによって、0は使用しないようになっている)
     }
-    HAL_CAN_AddTxMessage(can_handle, &tx_header, data_buff[output_num], &mailbox);
+    HAL_CAN_AddTxMessage(can_handle, &tx_header, data_buff[output_num].begin(), &mailbox);
     //データクリーニング(送信後のデータの多重送信を防ぐ)
     std::fill(data_buff[output_num].begin(), data_buff[output_num].end(), 0);
     id_buff[output_num] = 0;
