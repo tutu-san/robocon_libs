@@ -59,6 +59,7 @@ public:
 
     void reset_speed_data();
     void reset_positon_data();
+    void selcet_robomas_gear_ratio(uint8_t, uint8_t);
 };
 
 #endif

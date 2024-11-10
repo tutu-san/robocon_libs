@@ -81,3 +81,18 @@ void robomas_encoder::reset_positon_data(){
     robomas_input_pos_high = 0;
 	robomas_input_pos_low = 0;
 }
+
+void robomas_encoder::selcet_robomas_gear_ratio(uint8_t motor_number, uint8_t temp_data){
+	//c610 c620を見分ける
+	if(temp_data){
+		//非0なら c620
+		motor_gear_ratio = 19.2f;
+	}else{
+		//0ならc610
+		motor_gear_ratio = 36.0f;
+	}
+}
+
+void robomas_encoder::external_gear_ratio(float ex_gear_ratio){
+    ;; //後日実装
+}
