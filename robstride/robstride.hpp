@@ -4,8 +4,8 @@
 
 #include <cmath>
 #include <cstdint>
-#include "tools.hpp"
-#include "can.hpp"
+#include "../tools/tools.hpp"
+#include "../device_dependent_code/can.hpp"
 
 class robstride{
     //can
@@ -30,10 +30,17 @@ class robstride{
 
     //limit
     float current_limit = 1.0f;
+
+    //current gain
+    float p_gain = 0.0f, i_gain = 0.0f;
 public:
     //コンストラクタ
     robstride(can_transmit* _can_transmitter, uint8_t _master_id, uint8_t _motor_id) 
-    : can_transmitter(_can_transmitter), master_id(_master_id), motor_id(_motor_id){}
+    : can_transmitter(_can_transmitter), master_id(_master_id), motor_id(_motor_id){
+        init();
+    }
+    //init
+    void init();
     //can
     void input_encoder_data(uint8_t encoder_data[]);
     //rotation
@@ -46,6 +53,8 @@ public:
     //mode_change
     void set_current_mode();
     void enable_motor();
+
+    void set_current_mode_gain(float, float);
 
     uint8_t _data[8]{};
 };

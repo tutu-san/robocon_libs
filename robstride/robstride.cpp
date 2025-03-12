@@ -20,7 +20,7 @@ void robstride::current_rotate(float power_rate = 0.0f, float current_order = 0.
 }
 
 void robstride::set_current_mode(){
-    uint32_t mode_control_id = (0x1200FD7F);
+    uint32_t mode_control_id = (0x12000000 + motor_id + (master_id<<8));;
     uint8_t send_data[5] = {0x05, 0x70, 0x00, 0x00, 0x03};
     
     can_transmitter->can_input_transmit_buffer(mode_control_id, send_data);
@@ -28,7 +28,7 @@ void robstride::set_current_mode(){
 }
 
 void robstride::enable_motor(){
-    uint32_t enable_id = 0x300FD7F;
+    uint32_t enable_id = (0x30000000 + motor_id + (master_id<<8));
     uint8_t send_data[8]{};
     
     can_transmitter->can_input_transmit_buffer(enable_id, send_data);
@@ -71,4 +71,24 @@ float robstride::update_angle(int16_t angle,int16_t speed){
 
     old_angle = angle;
     return angle_to_rad*(angle + turn_count*resolution);
+}
+
+void robstride::set_current_mode_gain(float _p_gain, float _i_gain){
+    p_gain = _p_gain;
+    i_gain = _i_gain;
+    uint32_t gain_write_id = (0x12000000 + motor_id + (master_id<<8));
+    uint32_t p_gain_bit = *reinterpret_cast<uint32_t*>(&p_gain);
+    uint32_t i_gain_bit = *reinterpret_cast<uint32_t*>(&i_gain);
+    uint8_t p_gain_write_data[8] = {0x10, 0x70, 0x00, 0x00, (p_gain_bit&0xff), ((p_gain_bit >> 8)&0xff), ((p_gain_bit >> 16)&0xff), ((p_gain_bit >> 24)&0xff)}; //little endian
+    uint8_t i_gain_write_data[8] = {0x11, 0x70, 0x00, 0x00, (i_gain_bit&0xff), ((i_gain_bit >> 8)&0xff), ((i_gain_bit >> 16)&0xff), ((i_gain_bit >> 24)&0xff)}; //little endian
+
+    can_transmitter->can_input_transmit_buffer(gain_write_id, p_gain_write_data);
+    can_transmitter->can_input_transmit_buffer(gain_write_id, i_gain_write_data);
+
+}
+
+void robstride::init(){
+    enable_motor();
+    set_current_mode();
+    set_current_mode_gain(3.0f, 0.0f);
 }
