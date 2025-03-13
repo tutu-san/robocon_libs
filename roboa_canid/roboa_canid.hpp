@@ -1,6 +1,8 @@
 #pragma once
 #ifndef ROBOA_CAN_ID
 #define ROBOA_CAN_ID
+#define ROBOA_CAN_ID_EN 0
+#if ROBOA_CAN_ID_EN
 
 #include <cstdint>
 #include <array>
@@ -137,4 +139,5 @@ uint64_t canid_generater_ccc(read_or_write_enum read_or_write, ccc_contents_name
 //gpio
 uint64_t canid_generater_gpio(read_or_write_enum read_or_write, gpio_board_contents_name_enum contents_name, int board_number = 0);
 
+#endif
 #endif
