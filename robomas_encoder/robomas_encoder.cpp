@@ -36,6 +36,7 @@ float robomas_encoder::show_pos(){
 void robomas_encoder::first_axis_pos(){
 	ruisekiwa = update_angle(angle_data, speed_data);
 	last_data = ruisekiwa;
+    result_pos = 0.0f;
 	return;
 }
 

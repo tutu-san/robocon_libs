@@ -56,6 +56,7 @@ float robstride::show_angle(){
 void robstride::reset_angle(){
 	ruisekiwa = update_angle(angle_data, speed_data);
 	last_data = ruisekiwa;
+    result_pos = 0.0f;
 	return;
 }
 
