@@ -17,13 +17,13 @@
 class robomas_rotation{
 protected:
     constexpr static uint32_t robomas_can_id = 0x200;
-    void* can_handle;
+    can_transmit* can_transmitter;
     void convert_to_send_data(const float(&)[4], uint8_t(&)[8]);
     float robomas_pwm_data[4] = {0.0f};
 	int16_t robomas_int16_pwm_data[4]; //float to int
 	float motor_max_power[4]{};
 public:
-    robomas_rotation(void* _can_handle): can_handle(_can_handle){}
+    robomas_rotation(can_transmit* _can_transmitter): can_transmitter(_can_transmitter){}
     void rotate();
     void input_rotation_data(int, float);
     float show_pwm_data(int);

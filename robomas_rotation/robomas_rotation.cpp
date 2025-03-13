@@ -11,7 +11,7 @@ void robomas_rotation::input_rotation_data(int motor_number, float input_power_r
 void robomas_rotation::rotate(){
 	uint8_t robomas_send_data[8] = {0};
 	convert_to_send_data(robomas_pwm_data, robomas_send_data);
-	can_send(can_handle, robomas_can_id, robomas_send_data);
+	can_transmitter->can_input_transmit_buffer(robomas_can_id, robomas_send_data);
 }
 
 void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], uint8_t(&robomas_send_data)[8]){
