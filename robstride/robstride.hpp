@@ -29,7 +29,7 @@ class robstride{
     float update_angle(int16_t angle,int16_t speed);
 
     //limit
-    float current_limit = 1.0f;
+    float current_limit = 2.0f;
 
     //current gain
     float p_gain = 0.0f, i_gain = 0.0f;

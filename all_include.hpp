@@ -11,6 +11,7 @@
 #include "roboa_canid/roboa_canid.hpp"
 #include "robomas_encoder/robomas_encoder.hpp"
 #include "robomas_rotation/robomas_rotation.hpp"
+#include "robstride/robstride.hpp"
 #include "switch_filter/switch_filter.hpp"
 #include "tools/tools.hpp"
 #endif
