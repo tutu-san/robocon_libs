@@ -14,4 +14,5 @@
 #include "robstride/robstride.hpp"
 #include "switch_filter/switch_filter.hpp"
 #include "tools/tools.hpp"
+#include "as5600_encoder/as5600.hpp"
 #endif
