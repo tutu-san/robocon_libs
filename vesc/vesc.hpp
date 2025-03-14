@@ -18,4 +18,5 @@ public:
     vesc_rotation(can_transmit* _can_transmitter, uint32_t _motor_id)
     : can_transmitter(_can_transmitter), motor_id(_motor_id){}
     void rotate(float power_ratio);
-}
+};
+#endif
