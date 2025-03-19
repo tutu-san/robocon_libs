@@ -95,7 +95,11 @@ void robstride::set_current_mode_gain(float _p_gain, float _i_gain){
 }
 
 void robstride::init(){
-    enable_motor();
-    set_current_mode();
-    set_current_mode_gain(0.2f, 0.2f);
+	enable_motor();
+			HAL_Delay(100);
+	set_current_mode();
+			HAL_Delay(100);
+	set_current_mode_gain(0.2f, 0.2f);
+			HAL_Delay(100);
+	reset_angle();
 }

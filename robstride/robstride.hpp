@@ -38,7 +38,7 @@ public:
     //コンストラクタ
     robstride(can_transmit* _can_transmitter, uint8_t _master_id, uint8_t _motor_id) 
     : can_transmitter(_can_transmitter), master_id(_master_id), motor_id(_motor_id){
-        init();
+//        init();
     }
     //init
     void init();
