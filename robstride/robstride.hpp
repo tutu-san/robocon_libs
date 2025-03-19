@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <cstdint>
+#include "stm32f4xx_hal.h"
 #include "../tools/tools.hpp"
 #include "../device_dependent_code/can.hpp"
 
@@ -20,7 +21,7 @@ class robstride{
     //angle_data
     constexpr static size_t resolution_bit = 16;
     constexpr static int resolution = 1<<resolution_bit;
-    constexpr static float angle_to_rad = 4*M_PI/(float)resolution;
+    constexpr static float angle_to_rad = 8*M_PI/(float)resolution;
     int32_t turn_count = 0;
     int16_t old_angle = 0;
     float ruisekiwa = 0.0f;

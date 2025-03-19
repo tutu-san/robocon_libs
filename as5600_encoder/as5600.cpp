@@ -17,6 +17,7 @@ void as5600_tool::receive_encoder_data(){
         turn_count--;
     }
     ruiseki_angle_data += rev_delta_angle;
+    last_rev_angle_data = rev_angle_data;
     HAL_GPIO_WritePin(slave_selecter.port, slave_selecter.pin, GPIO_PIN_RESET);
     rev_mode = false;
 }
@@ -28,6 +29,7 @@ float as5600_tool::show_speed(){
 
 float as5600_tool::show_angle(){
     float rad = deg_to_rad(ruiseki_angle_data / bit12_value);
+    _angle_data = rad;
     return rad;
 }
 

@@ -37,6 +37,7 @@ public:
     float show_raw_angle();
     int show_turn_count();
     void reset_ruiseki_angle();
+    int _angle_data;
 };
 
 #endif

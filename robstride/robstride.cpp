@@ -11,6 +11,7 @@ void robstride::current_rotate(float power_rate = 0.0f, float current_order = 0.
     target_current.current_f = direct_control ? current_order : (power_rate * current_limit);
 
     uint32_t current_control_id = (0x12000000 + motor_id + (master_id<<8));
+//    uint32_t current_control_id = 0x12000001;
     uint8_t send_data[8] = {0x06, 0x70, 0x00, 0x00, target_current.current_u8[0], target_current.current_u8[1], target_current.current_u8[2], target_current.current_u8[3]};
     for(int i = 0; i<8; i++){
     	_data[i] = send_data[i];
@@ -28,7 +29,7 @@ void robstride::set_current_mode(){
 }
 
 void robstride::enable_motor(){
-    uint32_t enable_id = (0x30000000 + motor_id + (master_id<<8));
+    uint32_t enable_id = (0x3000000 + motor_id + (master_id<<8));
     uint8_t send_data[8]{};
     
     can_transmitter->can_input_transmit_buffer(enable_id, send_data);
@@ -54,6 +55,11 @@ float robstride::show_angle(){
 }
 
 void robstride::reset_angle(){
+	this->current_rotate(0.0f, 0.0f, false);
+	uint32_t reset_id = 0x6000000 + motor_id + (master_id<<8);
+	uint8_t reset_data[8] = {1};
+	can_transmitter->can_input_transmit_buffer(reset_id, reset_data);
+	HAL_Delay(3000);
 	ruisekiwa = update_angle(angle_data, speed_data);
 	last_data = ruisekiwa;
     result_pos = 0.0f;
@@ -91,5 +97,5 @@ void robstride::set_current_mode_gain(float _p_gain, float _i_gain){
 void robstride::init(){
     enable_motor();
     set_current_mode();
-    set_current_mode_gain(3.0f, 0.0f);
+    set_current_mode_gain(0.2f, 0.2f);
 }
