@@ -60,6 +60,8 @@ public:
     //
     uint8_t show_mcu_memory_motor_id(){return motor_id;}
 
+    void over_write_pos(float);
+
     uint8_t _data[8]{};
 };
 #endif

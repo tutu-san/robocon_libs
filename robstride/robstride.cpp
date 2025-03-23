@@ -103,3 +103,7 @@ void robstride::init(){
 			HAL_Delay(100);
 	reset_angle();
 }
+
+void robstride::over_write_pos(float new_data){
+    result_pos = new_data;
+}
