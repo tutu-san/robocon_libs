@@ -20,12 +20,31 @@ void robstride::current_rotate(float power_rate = 0.0f, float current_order = 0.
     return;
 }
 
+void robstride::positon_rotate(float target_position){
+	uint32_t pram_write_id = (0x12000000 + motor_id + (master_id<<8));
+	union{
+	  float f;
+	  uint8_t u[4];
+	}Fu;
+	Fu.f = target_position + default_positon;
+	uint8_t pp_target_data[8] = {0x16, 0x70, 0x00, 0x00, Fu.u[0], Fu.u[1], Fu.u[2], Fu.u[3]};
+	can_transmitter->can_input_transmit_buffer(pram_write_id, pp_target_data);
+}
+
 void robstride::set_current_mode(){
     uint32_t mode_control_id = (0x12000000 + motor_id + (master_id<<8));;
     uint8_t send_data[5] = {0x05, 0x70, 0x00, 0x00, 0x03};
     
     can_transmitter->can_input_transmit_buffer(mode_control_id, send_data);
     return;
+}
+
+void robstride::set_positon_mode(){
+	positon_rotate(current_positon);
+	default_positon = current_positon;
+	uint32_t pram_write_id = (0x12000000 + motor_id + (master_id<<8));
+	uint8_t set_pp_mode_data[] = {0x05, 0x70, 0x00, 0x00, 0x01};
+	can_transmitter->can_input_transmit_buffer(pram_write_id, set_pp_mode_data);
 }
 
 void robstride::enable_motor(){
@@ -36,10 +55,12 @@ void robstride::enable_motor(){
     return;
 }
 /*encoder*/
-void robstride::input_encoder_data(uint8_t encoder_data[]){
-    angle_data = ((encoder_data[0]<<8) | encoder_data[1]) - 32768;
-    speed_data = ((encoder_data[2]<<8) | encoder_data[3]) - 32768;
-    touque_data = ((encoder_data[4]<<8) | encoder_data[5]) - 32768;
+void robstride::input_encoder_data(uint8_t(&rev_data)[8]){
+	uint8_t encoder_data[8] = {rev_data[4], rev_data[5], rev_data[6], rev_data[7]};
+	if(is_positon_requesting){
+		current_positon = uint8_to_float(encoder_data);
+		is_positon_requesting = false;
+	}
 }
 
 float robstride::show_speed(){ //rad/s
@@ -48,22 +69,22 @@ float robstride::show_speed(){ //rad/s
 }
 
 float robstride::show_angle(){
-    ruisekiwa = update_angle(angle_data, speed_data);
-	result_pos += (ruisekiwa - last_data);
-	last_data = ruisekiwa;
-	return result_pos;
+//    ruisekiwa = update_angle(angle_data, speed_data);
+//	result_pos += (ruisekiwa - last_data);
+//	last_data = ruisekiwa;
+//	return result_pos;
 }
 
 void robstride::reset_angle(){
-	this->current_rotate(0.0f, 0.0f, false);
-	uint32_t reset_id = 0x6000000 + motor_id + (master_id<<8);
-	uint8_t reset_data[8] = {1};
-	can_transmitter->can_input_transmit_buffer(reset_id, reset_data);
-	HAL_Delay(3000);
-	ruisekiwa = update_angle(angle_data, speed_data);
-	last_data = ruisekiwa;
-    result_pos = 0.0f;
-	return;
+//	this->current_rotate(0.0f, 0.0f, false);
+//	uint32_t reset_id = 0x6000000 + motor_id + (master_id<<8);
+//	uint8_t reset_data[8] = {1};
+//	can_transmitter->can_input_transmit_buffer(reset_id, reset_data);
+////	HAL_Delay(3000);
+//	ruisekiwa = update_angle(angle_data, speed_data);
+//	last_data = ruisekiwa;
+//    result_pos = 0.0f;
+//	return;
 }
 
 float robstride::update_angle(int16_t angle,int16_t speed){
@@ -81,29 +102,40 @@ float robstride::update_angle(int16_t angle,int16_t speed){
 }
 
 void robstride::set_current_mode_gain(float _p_gain, float _i_gain){
-    p_gain = _p_gain;
-    i_gain = _i_gain;
-    uint32_t gain_write_id = (0x12000000 + motor_id + (master_id<<8));
-    uint32_t p_gain_bit = *reinterpret_cast<uint32_t*>(&p_gain);
-    uint32_t i_gain_bit = *reinterpret_cast<uint32_t*>(&i_gain);
-    uint8_t p_gain_write_data[8] = {0x10, 0x70, 0x00, 0x00, (p_gain_bit&0xff), ((p_gain_bit >> 8)&0xff), ((p_gain_bit >> 16)&0xff), ((p_gain_bit >> 24)&0xff)}; //little endian
-    uint8_t i_gain_write_data[8] = {0x11, 0x70, 0x00, 0x00, (i_gain_bit&0xff), ((i_gain_bit >> 8)&0xff), ((i_gain_bit >> 16)&0xff), ((i_gain_bit >> 24)&0xff)}; //little endian
-
-    can_transmitter->can_input_transmit_buffer(gain_write_id, p_gain_write_data);
-    can_transmitter->can_input_transmit_buffer(gain_write_id, i_gain_write_data);
+//    p_gain = _p_gain;
+//    i_gain = _i_gain;
+//    uint32_t gain_write_id = (0x12000000 + motor_id + (master_id<<8));
+//    uint32_t p_gain_bit = *reinterpret_cast<uint32_t*>(&p_gain);
+//    uint32_t i_gain_bit = *reinterpret_cast<uint32_t*>(&i_gain);
+//    uint8_t p_gain_write_data[8] = {0x10, 0x70, 0x00, 0x00, (p_gain_bit&0xff), ((p_gain_bit >> 8)&0xff), ((p_gain_bit >> 16)&0xff), ((p_gain_bit >> 24)&0xff)}; //little endian
+//    uint8_t i_gain_write_data[8] = {0x11, 0x70, 0x00, 0x00, (i_gain_bit&0xff), ((i_gain_bit >> 8)&0xff), ((i_gain_bit >> 16)&0xff), ((i_gain_bit >> 24)&0xff)}; //little endian
+//
+//    can_transmitter->can_input_transmit_buffer(gain_write_id, p_gain_write_data);
+//    can_transmitter->can_input_transmit_buffer(gain_write_id, i_gain_write_data);
 
 }
 
 void robstride::init(){
-	enable_motor();
-			HAL_Delay(100);
-	set_current_mode();
-			HAL_Delay(100);
-	set_current_mode_gain(0.2f, 0.2f);
-			HAL_Delay(100);
-	reset_angle();
+	;; //内容再検討
 }
 
 void robstride::over_write_pos(float new_data){
-    result_pos = new_data;
+//    result_pos = new_data;
+}
+
+bool robstride::check_requesting_feedback(){
+	//速度・位置共通としたい
+	if(is_positon_requesting){return true;}
+	return false;
+}
+
+void robstride::request_positon_data(){
+	uint32_t req_feedback_id = (0x11000000 + motor_id + (master_id<<8));;
+	uint8_t req_position_data[8] = {0x19, 0x70};
+	can_transmitter->can_input_transmit_buffer(req_feedback_id, req_position_data);
+	is_positon_requesting = true;
+}
+
+void robstride::motor_out(){
+	is_positon_requesting = false;
 }

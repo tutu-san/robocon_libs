@@ -14,9 +14,9 @@ class robstride{
     const uint8_t master_id = 0x00; //0xFD
     const uint8_t motor_id = 0x00; //0x7F
     //raw_data, tmp_data
-    int16_t angle_data;
-    int16_t speed_data;
-    int16_t touque_data;
+    int16_t angle_data = 0;
+    int16_t speed_data = 0;
+    int16_t touque_data = 0;
     
     //angle_data
     constexpr static size_t resolution_bit = 16;
@@ -29,6 +29,11 @@ class robstride{
     float result_pos = 0.0f;
     float update_angle(int16_t angle,int16_t speed);
 
+    //new_encoder
+    float current_positon = 0.0f;
+    bool is_positon_requesting = false;
+    float default_positon = 0.0f;
+
     //limit
     float current_limit = 2.0f;
 
@@ -37,15 +42,19 @@ class robstride{
 public:
     //コンストラクタ
     robstride(can_transmit* _can_transmitter, uint8_t _master_id, uint8_t _motor_id) 
-    : can_transmitter(_can_transmitter), master_id(_master_id), motor_id(_motor_id){
-//        init();
-    }
+    : can_transmitter(_can_transmitter), master_id(_master_id), motor_id(_motor_id){}
     //init
     void init();
     //can
-    void input_encoder_data(uint8_t encoder_data[]);
+    void input_encoder_data(uint8_t(&)[8]);
+    bool check_requesting_feedback();
+    void motor_out();
+    //関数ポインタ使えそうかも？
+    void request_positon_data();
+
     //rotation
 	void current_rotate(float, float, bool);
+	void positon_rotate(float);
 	//speed
 	float show_speed();
     //angle
@@ -53,6 +62,7 @@ public:
     void reset_angle();
     //mode_change
     void set_current_mode();
+    void set_positon_mode();
     void enable_motor();
 
     void set_current_mode_gain(float, float);
