@@ -64,6 +64,7 @@ public:
     void set_current_mode();
     void set_positon_mode();
     void enable_motor();
+    void stop_motor();
 
     void set_current_mode_gain(float, float);
 
@@ -71,6 +72,7 @@ public:
     uint8_t show_mcu_memory_motor_id(){return motor_id;}
 
     void over_write_pos(float);
+    float _target_data = 0.0f;
 
     uint8_t _data[8]{};
 };

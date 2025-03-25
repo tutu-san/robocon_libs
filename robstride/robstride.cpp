@@ -27,6 +27,7 @@ void robstride::positon_rotate(float target_position){
 	  uint8_t u[4];
 	}Fu;
 	Fu.f = target_position + default_positon;
+	_target_data = Fu.f;
 	uint8_t pp_target_data[8] = {0x16, 0x70, 0x00, 0x00, Fu.u[0], Fu.u[1], Fu.u[2], Fu.u[3]};
 	can_transmitter->can_input_transmit_buffer(pram_write_id, pp_target_data);
 }
@@ -53,6 +54,14 @@ void robstride::enable_motor(){
     
     can_transmitter->can_input_transmit_buffer(enable_id, send_data);
     return;
+}
+
+void robstride::stop_motor(){
+	uint32_t enable_id = (0x4000000 + motor_id + (master_id<<8));
+	uint8_t send_data[8]{};
+
+	can_transmitter->can_input_transmit_buffer(enable_id, send_data);
+	return;
 }
 /*encoder*/
 void robstride::input_encoder_data(uint8_t(&rev_data)[8]){
