@@ -41,6 +41,7 @@ void robstride::set_current_mode(){
 }
 
 void robstride::set_positon_mode(){
+	default_positon = 0.0f;
 	positon_rotate(current_positon);
 	default_positon = current_positon;
 	uint32_t pram_write_id = (0x12000000 + motor_id + (master_id<<8));
@@ -78,22 +79,11 @@ float robstride::show_speed(){ //rad/s
 }
 
 float robstride::show_angle(){
-//    ruisekiwa = update_angle(angle_data, speed_data);
-//	result_pos += (ruisekiwa - last_data);
-//	last_data = ruisekiwa;
-//	return result_pos;
+	return current_positon - default_positon;
 }
 
-void robstride::reset_angle(){
-//	this->current_rotate(0.0f, 0.0f, false);
-//	uint32_t reset_id = 0x6000000 + motor_id + (master_id<<8);
-//	uint8_t reset_data[8] = {1};
-//	can_transmitter->can_input_transmit_buffer(reset_id, reset_data);
-////	HAL_Delay(3000);
-//	ruisekiwa = update_angle(angle_data, speed_data);
-//	last_data = ruisekiwa;
-//    result_pos = 0.0f;
-//	return;
+void robstride::set_default_position(float new_position){
+	default_positon = current_positon + new_position;
 }
 
 float robstride::update_angle(int16_t angle,int16_t speed){
