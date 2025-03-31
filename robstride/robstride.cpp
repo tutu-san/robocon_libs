@@ -82,8 +82,12 @@ float robstride::show_angle(){
 	return current_positon - default_positon;
 }
 
-void robstride::set_default_position(float new_position){
-	default_positon = current_positon + new_position;
+void robstride::set_default_position(float new_position, bool abs_mode){
+	if(abs_mode){
+		default_positon = new_position;
+	}else{
+		default_positon = current_positon + new_position;
+	}
 }
 
 float robstride::update_angle(int16_t angle,int16_t speed){

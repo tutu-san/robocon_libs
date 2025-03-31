@@ -59,7 +59,7 @@ public:
 	float show_speed();
     //angle
     float show_angle();
-    void set_default_position(float);
+    void set_default_position(float, bool = false);
     //mode_change
     void set_current_mode();
     void set_positon_mode();
