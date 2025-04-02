@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <algorithm>
+#include <cstring>
 #include "../tools/tools.hpp"
 #include "../robomas_rotation/robomas_rotation.hpp"
 
@@ -17,6 +18,8 @@ private:
 public:
     vesc_rotation(can_transmit* _can_transmitter, uint32_t _motor_id)
     : can_transmitter(_can_transmitter), motor_id(_motor_id){}
-    void rotate(float power_ratio);
+    void current_rotate(float power_ratio);
+    void speed_rotate(float target_speed);
+    void position_rotate(float target_position);
 };
 #endif
