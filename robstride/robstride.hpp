@@ -75,8 +75,6 @@ public:
     uint8_t is_motor_rebooted = 0;
     uint32_t tick_timer = 0;
 
-    uint8_t show_mcu_memory_motor_id(){return motor_id;}
-
-    uint8_t _data[8]{};
+    inline uint8_t show_mcu_memory_motor_id(){return motor_id;}
 };
 #endif

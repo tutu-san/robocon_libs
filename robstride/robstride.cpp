@@ -8,9 +8,6 @@ void robstride::current_rotate(float power_rate, float current_order, bool direc
     uint32_t current_control_id = (0x12000000 + motor_id + (master_id<<8));
     uint8_t send_data[8] = {0x06, 0x70, 0x00, 0x00};
     std::memcpy(&send_data[4], &target_current, sizeof(target_current));
-    for(int i = 0; i<8; i++){
-        _data[i] = send_data[i];
-    }
     can_transmitter->can_input_transmit_buffer(current_control_id, send_data);
 }
 
