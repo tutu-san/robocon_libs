@@ -44,7 +44,7 @@ float uint8_to_float(uint8_t(&uint_datas)[8]){
 	return result;
 }
 //uint8_t -> uint16_t
-int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low){
+int uint8_to_int(uint8_t input_data_low, uint8_t input_data_high){
     //上位,下位ビットの統合
     uint16_t unsigned_int_data = input_data_high << 8 | input_data_low;
 
@@ -58,14 +58,14 @@ int uint8_to_int(uint8_t input_data_high, uint8_t input_data_low){
 //uint8_t -> uint64_t
 uint64_t uint8_to_uint64(uint8_t(&input_data)[8]){
     //上位,中位,下位,下位ビットの統合
-    uint64_t unsigned_int_data = static_cast<uint64_t>(input_data[0]) << 56 |
-    								static_cast<uint64_t>(input_data[1]) << 48 |
-									static_cast<uint64_t>(input_data[2]) << 40 |
-									static_cast<uint64_t>(input_data[3]) << 32 |
-									static_cast<uint64_t>(input_data[4]) << 24 |
-									static_cast<uint64_t>(input_data[5]) << 16 |
-									static_cast<uint64_t>(input_data[6]) << 8 |
-									static_cast<uint64_t>(input_data[7]);
+    uint64_t unsigned_int_data = static_cast<uint64_t>(input_data[7]) << 56 |
+    								static_cast<uint64_t>(input_data[6]) << 48 |
+									static_cast<uint64_t>(input_data[5]) << 40 |
+									static_cast<uint64_t>(input_data[4]) << 32 |
+									static_cast<uint64_t>(input_data[3]) << 24 |
+									static_cast<uint64_t>(input_data[2]) << 16 |
+									static_cast<uint64_t>(input_data[1]) << 8 |
+									static_cast<uint64_t>(input_data[0]);
     //おしまい
     return unsigned_int_data;
 }

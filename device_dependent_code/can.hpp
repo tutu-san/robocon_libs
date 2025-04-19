@@ -7,6 +7,7 @@
 #include <array>
 #include <algorithm>
 #include <span>
+#include <cstring>
 #define ENABLE_CAN 1
 
 #if ENABLE_CAN
@@ -17,10 +18,12 @@ private:
     CAN_HandleTypeDef* can_handle;
 	bool ext_id;
     std::array<uint32_t, 8> id_buff{};
-    std::array<std::array<uint8_t, 8>, 8> data_buff{};
-    std::array<uint8_t, 8> data_size_buff{};
+    std::array<std::array<uint8_t, 8>, 16> data_buff{};
+    std::array<uint8_t, 16> data_size_buff{};
 	int input_num=0;
 	int output_num=0;
+	uint32_t error_id = 0;
+	uint8_t error_data[8]{};
 public:
     can_transmit(CAN_HandleTypeDef* _can_handle, bool _ext_id = false) : can_handle(_can_handle), ext_id(_ext_id){}
     int transmit();

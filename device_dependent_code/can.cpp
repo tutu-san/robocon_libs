@@ -11,7 +11,7 @@ void can_transmit::can_input_transmit_buffer(uint32_t can_id, std::span<uint8_t>
     }
     //リングバッファを実現
     input_num++;
-    if(input_num >= 8)input_num = 0;
+    if(input_num >= 16)input_num = 0;
     return;
 }
 
@@ -22,6 +22,11 @@ int can_transmit::transmit(){
     //現在のハードウェアバッファの空き容量を問い合わせる
     hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
     if(hardware_fifo_freelevel < 2){
+    	error_id = id_buff[output_num];
+    	for(int i=0; i<8; i++){
+    		error_data[i] = data_buff[output_num][i];
+    	}
+//    	std::memcpy(data_buff[output_num], error_data, 8);
         return -1; 
     }
     //can transmit
@@ -37,7 +42,7 @@ int can_transmit::transmit(){
     }
     if(id_buff[output_num] == 0){
         output_num++;
-        if(output_num >= 8) output_num = 0;
+        if(output_num >= 16) output_num = 0;
         return 0; //id_buff=0は、データ無しと判断、送信しない(プロトコルによって、0は使用しないようになっている)
     }
     HAL_CAN_AddTxMessage(can_handle, &tx_header, data_buff[output_num].begin(), &mailbox);
@@ -47,7 +52,7 @@ int can_transmit::transmit(){
     data_size_buff[output_num] = 0;
     //送信番号更新
     output_num++;
-    if(output_num >= 8) output_num = 0;
+    if(output_num >= 16) output_num = 0;
     return static_cast<int>(tx_header.DLC);
 }
 #endif
