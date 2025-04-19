@@ -14,7 +14,7 @@ void robstride::current_rotate(float power_rate, float current_order, bool direc
 void robstride::positon_rotate(float target_position){
     clamp(target_position, static_cast<float>(-M_PI), static_cast<float>(M_PI));
     uint32_t pram_write_id = (0x12000000 + motor_id + (master_id<<8));
-    float pos = target_position + default_positon;
+    float pos = (-target_position) + default_positon;
     _target_data = pos;
     uint8_t pp_target_data[8] = {0x16, 0x70, 0x00, 0x00};
     std::memcpy(&pp_target_data[4], &pos, sizeof(pos));
