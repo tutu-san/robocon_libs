@@ -22,6 +22,11 @@ int can_transmit::transmit(){
     //現在のハードウェアバッファの空き容量を問い合わせる
     hardware_fifo_freelevel = HAL_CAN_GetTxMailboxesFreeLevel(can_handle);
     if(hardware_fifo_freelevel < 2){
+//    	can_handle->Instance->TSR |= CAN_TSR_ABRQ0;
+//    	can_handle->Instance->TSR |= CAN_TSR_ABRQ1;
+//    	can_handle->Instance->TSR |= CAN_TSR_ABRQ2;
+//    	output_num++;
+//    	if(output_num >= 8) output_num = 0;
         return -1; 
     }
     //can transmit

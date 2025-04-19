@@ -3,6 +3,7 @@
 void robomas_rotation::input_rotation_data(int motor_number, float input_power_ratio){
 	if(motor_number >= 4) return; //範囲外アクセス防止
 	clamp(input_power_ratio, -1.0f, 1.0f);
+	robomas_ratio_data[motor_number] = input_power_ratio;
 	float input_pwm_data = input_power_ratio * motor_max_power[motor_number];
 	clamp(input_pwm_data, -motor_max_power[motor_number], motor_max_power[motor_number]);
 	robomas_pwm_data[motor_number] = input_pwm_data;
@@ -33,6 +34,9 @@ void robomas_rotation::convert_to_send_data(const float(&robomas_pwm_data)[4], u
 	robomas_send_data[5] = (uint16_t)robomas_int16_pwm_data[2] & 0xff;
 	robomas_send_data[6] = (uint16_t)robomas_int16_pwm_data[3] >> 8;
 	robomas_send_data[7] = (uint16_t)robomas_int16_pwm_data[3] & 0xff;
+}
+float robomas_rotation::show_ratio(int motor_number){
+	return robomas_ratio_data[motor_number];
 }
 
 float robomas_rotation::show_pwm_data(int motor_number){
