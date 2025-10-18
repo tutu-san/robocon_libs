@@ -59,6 +59,7 @@ public:
     void position_mode_spd_lim(float limit);
     void current_rotate(float, float, bool);
     void positon_rotate(float);
+    void positon_rotate_f(float);
     float show_speed();
     float show_angle();
     void set_default_position(float, bool = false);
@@ -69,7 +70,9 @@ public:
     void set_current_mode_gain(float, float);
 
     void over_write_pos(float);
+    float show_default_pos(){return default_positon;}
     float _target_data = 0.0f;
+    float _debug_new_position = 0.0f;
 
     void current_position_power_down_process();
     uint8_t is_motor_rebooted = 0;

@@ -21,6 +21,15 @@ void robstride::positon_rotate(float target_position){
     can_transmitter->can_input_transmit_buffer(pram_write_id, pp_target_data);
 }
 
+void robstride::positon_rotate_f(float target_position){
+    uint32_t pram_write_id = (0x12000000 + motor_id + (master_id<<8));
+    float pos = target_position;
+    _target_data = pos;
+    uint8_t pp_target_data[8] = {0x16, 0x70, 0x00, 0x00};
+    std::memcpy(&pp_target_data[4], &pos, sizeof(pos));
+    can_transmitter->can_input_transmit_buffer(pram_write_id, pp_target_data);
+}
+
 void robstride::set_current_mode(){
     uint32_t mode_control_id = (0x12000000 + motor_id + (master_id<<8));
     uint8_t send_data[5] = {0x05, 0x70, 0x00, 0x00, 0x03};
@@ -67,6 +76,7 @@ void robstride::input_encoder_data(uint8_t(&rev_data)[8]){
     uint8_t encoder_data[8] = {rev_data[4], rev_data[5], rev_data[6], rev_data[7]};
     if(is_positon_requesting){
         float new_position = uint8_to_float(encoder_data);
+        _debug_new_position = new_position;
 
         if(is_motor_rebooted){
             if((new_position > (default_positon + M_PI))/* && (stored_position_before_power_down < default_positon)*/){
@@ -74,7 +84,7 @@ void robstride::input_encoder_data(uint8_t(&rev_data)[8]){
             }else if(((default_positon - M_PI) > new_position)/* && (stored_position_before_power_down > default_positon)*/){
                 default_positon -= (M_PI * 2.0f);
             }
-            is_motor_rebooted = 0;
+            is_motor_rebooted = 3;
         }
 
         if(fabs(new_position - current_positon) > 1.0f){
